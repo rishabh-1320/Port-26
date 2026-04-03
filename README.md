@@ -21,6 +21,28 @@ npm install
 npm run dev:website
 ```
 
+## Go Live Now
+
+1. Create an empty GitHub repo (for example `ravish-portfolio-platform`).
+2. Connect this local repo to GitHub and push:
+   ```bash
+   git remote add origin https://github.com/<you>/<repo>.git
+   git push -u origin main
+   ```
+3. In Vercel, import the same GitHub repo four times with these root directories:
+   - `services/website-api`
+   - `apps/website`
+   - `apps/webapp`
+   - `apps/ai-tool` (optional, phase 3)
+4. Deploy order:
+   - First deploy `services/website-api`
+   - Copy its URL, then set `WEBSITE_API_BASE_URL` in the `apps/website` Vercel project
+   - Redeploy `apps/website`
+5. Verify:
+   - API: `https://<website-api>.vercel.app/health`
+   - Website: `https://<website>.vercel.app`
+   - Web app: `https://<webapp>.vercel.app`
+
 ## Deployment model (Vercel)
 
 Create separate Vercel projects with these root directories:
