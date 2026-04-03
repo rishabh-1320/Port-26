@@ -1,0 +1,26 @@
+{
+  "name": "ravish-portfolio-platform",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:website": "npm run dev -w @apps/website",
+    "dev:webapp": "npm run dev -w @apps/webapp",
+    "dev:ai-tool": "npm run dev -w @apps/ai-tool",
+    "dev:website-api": "npm run dev -w @services/website-api",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=20.10.0"
+  }
+}

@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #f2f5fa;
+  --color-text: #10243a;
+  --color-muted: #3f5870;
+  --color-brand: #0057d8;
+  --color-surface: #ffffff;
+  --color-border: #d3ddea;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(180deg, #f7fbff 0%, #eef3f8 100%);
+  color: var(--color-text);
+  font-family: "Sora", "Manrope", "Avenir Next", sans-serif;
+}

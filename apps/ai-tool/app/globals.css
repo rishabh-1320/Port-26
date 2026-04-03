@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #f3f6ef;
+  --color-text: #182113;
+  --color-muted: #51624a;
+  --color-brand: #1d7a3f;
+  --color-surface: #ffffff;
+  --color-border: #d9e5d3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at top right, rgba(124, 198, 142, 0.2), transparent 35%), var(--color-bg);
+  color: var(--color-text);
+  font-family: "IBM Plex Sans", "Manrope", "Avenir Next", sans-serif;
+}
