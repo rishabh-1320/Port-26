@@ -1,4 +1,4 @@
-# Ravish Portfolio Platform
+# Rishabh Portfolio Platform
 
 Monorepo for three products, in priority order:
 
