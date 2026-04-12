@@ -2,13 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Aileron";
+  src: url("https://framerusercontent.com/assets/LnlFZ5ZUXRaYAm8jDpvZSmzclA.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("https://framerusercontent.com/assets/suQ36PpzxORmpGk06KApyPNrO0.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aileron";
+  src: url("https://framerusercontent.com/assets/RREMWv6SMZi54dQqnELmrDAWKHw.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
-  --color-bg: #f7f8f3;
-  --color-text: #15221b;
-  --color-muted: #4c5f53;
-  --color-brand: #006f5f;
-  --color-surface: #fcfdf9;
-  --color-border: #dbe3dc;
+  --color-bg: #ffffff;
+  --color-text: #181818;
+  --color-muted: #8e8e8e;
+  --color-brand: #131313;
+  --color-brand-strong: #0f0f0f;
+  --color-chip: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-border: #e5e5e5;
 }
 
 * {
@@ -22,14 +48,146 @@ body {
 }
 
 body {
-  background: radial-gradient(circle at 5% 0%, rgba(117, 194, 154, 0.18), transparent 30%),
-    radial-gradient(circle at 90% 0%, rgba(132, 195, 215, 0.22), transparent 28%), var(--color-bg);
+  background: #fff;
   color: var(--color-text);
-  font-family: "Space Grotesk", "Manrope", "Avenir Next", sans-serif;
+  font-family: "Aileron", "Inter", "Segoe UI", sans-serif;
   min-height: 100vh;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.hero-highlight {
+  background: linear-gradient(120deg, #181818, #3f3f3f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.88);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.disabled-link {
+  cursor: not-allowed;
+  color: #8e8e8e;
+}
+
+.content-prose {
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+.framer-btn-primary,
+.framer-btn-neutral {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 16px;
+  padding: 10px 24px;
+  font-family: "Aileron", "Inter", "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 24px;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.framer-btn-primary {
+  background: #bbf451;
+  color: #181818;
+}
+
+.framer-btn-primary:hover {
+  background: #a6db46;
+  transform: translateY(-1px);
+}
+
+.framer-btn-primary:active {
+  transform: translateY(1px);
+}
+
+.framer-btn-neutral {
+  background: #f5f5f5;
+  color: rgba(24, 24, 24, 0.42);
+  cursor: not-allowed;
+}
+
+.hero-rotator {
+  position: relative;
+  display: inline-flex;
+  min-height: 88px;
+  color: #8e8e8e;
+}
+
+.hero-line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.34em;
+  row-gap: 0.08em;
+  white-space: normal;
+}
+
+.hero-word {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.hero-line-next {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.hero-char {
+  display: inline-block;
+  transform: translateY(0);
+  opacity: 1;
+  will-change: transform, opacity;
+  transition: transform 0.52s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.52s ease;
+}
+
+.hero-line-next .hero-char {
+  transform: translateY(108%);
+  opacity: 0;
+}
+
+.hero-rotator.is-transitioning .hero-line-current .hero-char {
+  transform: translateY(-108%);
+  opacity: 0;
+}
+
+.hero-rotator.is-transitioning .hero-line-next .hero-char {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 1439.98px) {
+  .hero-rotator {
+    min-height: 70px;
+  }
+}
+
+@media (max-width: 809.98px) {
+  .hero-rotator {
+    min-height: 48px;
+  }
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }

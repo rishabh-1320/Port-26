@@ -1,0 +1,18 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1200" fill="#F5F5F5"/>
+  <rect x="120" y="120" width="1360" height="960" rx="48" fill="#FFFFFF" stroke="#E5E5E5" stroke-width="8"/>
+  <rect x="220" y="220" width="360" height="44" rx="22" fill="#181818"/>
+  <rect x="220" y="300" width="760" height="58" rx="12" fill="#E8E8E8"/>
+  <rect x="220" y="380" width="920" height="58" rx="12" fill="#E8E8E8"/>
+  <rect x="220" y="478" width="620" height="24" rx="12" fill="#D4D4D4"/>
+  <rect x="220" y="540" width="1140" height="360" rx="28" fill="#BBF451"/>
+  <rect x="262" y="584" width="420" height="40" rx="10" fill="#181818" fill-opacity="0.18"/>
+  <rect x="262" y="648" width="740" height="28" rx="10" fill="#181818" fill-opacity="0.15"/>
+  <rect x="262" y="694" width="620" height="28" rx="10" fill="#181818" fill-opacity="0.15"/>
+  <rect x="262" y="768" width="210" height="54" rx="27" fill="#181818"/>
+  <circle cx="1300" cy="290" r="90" fill="#4FA1FF" fill-opacity="0.35"/>
+  <circle cx="1380" cy="390" r="62" fill="#BBF451" fill-opacity="0.45"/>
+  <text x="252" y="252" fill="#FFFFFF" font-family="Aileron, Arial, sans-serif" font-size="22" font-weight="700">NEW CASE STUDY</text>
+  <text x="252" y="340" fill="#181818" font-family="Aileron, Arial, sans-serif" font-size="38" font-weight="700">Onboarding Redesign</text>
+  <text x="252" y="416" fill="#181818" font-family="Aileron, Arial, sans-serif" font-size="38" font-weight="700">Content Migration</text>
+</svg>
