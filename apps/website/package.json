@@ -10,7 +10,7 @@
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@packages/ui": "0.1.0",
+    "@packages/ui": "file:../../packages/ui",
     "next": "^14.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
