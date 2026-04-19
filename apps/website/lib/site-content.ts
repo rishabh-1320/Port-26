@@ -24,13 +24,13 @@ export const homeContent: HomeContent = {
       id: "01",
       title: "Cut Through the Noise",
       description: "I dig past assumptions and half-baked ideas to find the real problem.",
-      bgColor: "#E8E8E8",
+      bgColor: "#F5F5F5",
       textColor: "#181818"
     },
     {
       id: "02",
       title: "Lay the Groundwork",
-      description: "I map out flows and structure so the team knows exactly where we are heading.",
+      description: "I map out flows and structure so the team knows exactly where we're heading.",
       bgColor: "#BBF451",
       textColor: "#181818"
     },
@@ -38,13 +38,13 @@ export const homeContent: HomeContent = {
       id: "03",
       title: "Build Fast, Break Fast",
       description: "I prototype, test, and refine until the experience feels seamless and strong.",
-      bgColor: "#4FA1FF",
+      bgColor: "#007AFF",
       textColor: "#ffffff"
     },
     {
       id: "04",
-      title: "Ship and Evolve",
-      description: "I launch, learn from real use, and keep continuously improving without ego.",
+      title: "Ship & Evolve",
+      description: "I launch, learn from real use, and keep continuously improving without the ego.",
       bgColor: "#181818",
       textColor: "#ffffff"
     }
@@ -89,8 +89,9 @@ export const homeContent: HomeContent = {
       description:
         "Built a scalable component library and design system to ensure consistency across multiple enterprise products.",
       image: "https://framerusercontent.com/images/da1nfgfKizLj4NKfDH7CM7Abso.png",
-      ctaLabel: "Open Case study",
-      active: false,
+      ctaLabel: "View case study",
+      active: true,
+      href: "/casestudy/design-system",
       tags: ["Design System", "Component Library", "Design to Code"]
     }
   ],
@@ -99,18 +100,20 @@ export const homeContent: HomeContent = {
       id: "ai-component-lib",
       title: "Making Component Library",
       description: "Building a comprehensive, scalable component library with design tokens and coded components.",
-      image: "https://framerusercontent.com/images/r186HwEvDAVtFgHPbRq9eyYWYKs.png",
+      image: "https://framerusercontent.com/images/4pyO6vhykNH4ooSWJ9TTjvKrU.png?width=1200&height=600",
       ctaLabel: "Open Case study",
-      active: false,
+      active: true,
+      href: "/ai/ai-shopping-assistant",
       tags: ["Design System", "Component Library", "Design to Code"]
     },
     {
       id: "ai-shopping",
       title: "AI Shopping Assistant",
       description: "Pet project exploring AI-driven shopping flows and conversational product discovery.",
-      image: "https://framerusercontent.com/images/o7bz5cm2oknsYdEVH8GOfm2kqU.png?scale-down-to=1024&width=1440&height=1440",
+      image: "https://framerusercontent.com/images/r186HwEvDAVtFgHPbRq9eyYWYKs.png?width=750&height=750",
       ctaLabel: "Open project",
-      active: false,
+      active: true,
+      href: "/ai/ai-shopping-assistant",
       tags: ["Vibe Code", "Pet Project", "AI"]
     }
   ],
@@ -150,8 +153,8 @@ export const homeContent: HomeContent = {
       alt: "Creative inspiration"
     }
   ],
-  coursesTitle: "Fun Stuff",
-  coursesIntro: "Product and UI/UX Designer focused on design-to-code quality for enterprise products.",
+  coursesTitle: "Who Am I?",
+  coursesIntro: "I'm a Product Designer specializing in B2B enterprise tools that turn fragmented workflows into seamless digital experiences.",
   courseHighlights: ["UX designer", "Design to Code", "Making Component library"],
   aboutSummary:
     "A product designer who loves working on complex systems and enhancing features to improve product functionality and user experience.",
@@ -160,7 +163,7 @@ export const homeContent: HomeContent = {
       company: "Tcules UX design studio",
       role: "UX Designer",
       periodStart: "Jul 2025",
-      periodEnd: "Present",
+      periodEnd: "Mar 2026",
       logoSrc: "https://framerusercontent.com/images/da1nfgfKizLj4NKfDH7CM7Abso.png?width=200&height=200",
       description:
         "Designed end-to-end UX overhaul and brand evolution for Chestnut, a Producer Performance Management platform. By applying design thinking and rigorous UX research, I transformed a legacy interface into a modern, high-efficiency tool for carriers. I implemented a scalable design system and new performance-tracking features that streamlined producer management and improved operational transparency.",

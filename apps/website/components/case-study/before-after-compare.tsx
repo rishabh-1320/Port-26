@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useId, useState } from "react";
 
 type BeforeAfterCompareProps = {
@@ -17,23 +18,26 @@ export function BeforeAfterCompare({ beforeSrc, afterSrc, beforeLabel, afterLabe
   return (
     <figure className="space-y-2">
       <div className="relative overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
-        <img
+        <Image
           src={beforeSrc}
           alt={`${alt} (before)`}
+          width={1600}
+          height={1000}
+          sizes="(max-width: 809px) 100vw, 860px"
           className="h-auto max-h-[500px] w-full select-none bg-[#fafafa] object-contain"
           draggable={false}
-          loading="lazy"
-          decoding="async"
         />
         <div className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${position}%` }}>
-          <img
-            src={afterSrc}
-            alt={`${alt} (after)`}
-            className="h-full w-full select-none bg-[#fafafa] object-contain"
-            draggable={false}
-            loading="lazy"
-            decoding="async"
-          />
+          <div className="relative h-full w-full">
+            <Image
+              src={afterSrc}
+              alt={`${alt} (after)`}
+              fill
+              sizes="(max-width: 809px) 100vw, 860px"
+              className="select-none bg-[#fafafa] object-contain"
+              draggable={false}
+            />
+          </div>
         </div>
 
         <div className="pointer-events-none absolute inset-y-0" style={{ left: `calc(${position}% - 1px)` }}>

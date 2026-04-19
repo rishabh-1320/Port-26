@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@packages/ui";
 import type { HomeContent } from "@/lib/types";
@@ -11,7 +12,7 @@ export function SiteHeader({ content }: SiteHeaderProps) {
     <header className="sticky top-0 z-40 border-b border-white bg-white/80 backdrop-blur-[10px]">
       <Container className="flex h-[88px] max-w-[1600px] items-center justify-between gap-4 md:h-[92px]">
         <Link href="/" className="flex min-w-fit items-center gap-3">
-          <img src={content.logo} alt="Design Port logo" className="h-9 w-9 rounded-full object-cover" />
+          <Image src={content.logo} alt="Design Port logo" width={1969} height={1969} sizes="36px" className="h-9 w-9 rounded-full object-cover" />
           <div>
             <p className="text-base font-bold leading-none tracking-tight md:text-[28px] md:leading-8" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.02em' }}>
               {content.siteName}

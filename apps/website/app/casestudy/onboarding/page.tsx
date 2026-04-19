@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Card, Container, Section } from "@packages/ui";
 import { BeforeAfterCompare } from "@/components/case-study/before-after-compare";
@@ -117,11 +118,13 @@ export default function OnboardingCaseStudyPage() {
                   <h3 className="text-xl font-semibold tracking-tight md:text-2xl">{onboardingCaseStudy.frictionSummary.heading}</h3>
                   <p className="content-prose">{onboardingCaseStudy.frictionSummary.prompt}</p>
                   <div className="flex items-center justify-center overflow-hidden rounded-xl bg-white py-4">
-                    <img
+                    <Image
                       src={onboardingCaseStudy.frictionSummary.figure.src}
                       alt={onboardingCaseStudy.frictionSummary.figure.alt}
+                      width={680}
+                      height={520}
+                      sizes="(max-width: 809px) 40vw, 170px"
                       className="h-auto w-[25%] min-w-[110px] max-w-[170px] object-contain"
-                      loading="lazy"
                     />
                   </div>
                   <div className="grid gap-3 md:grid-cols-3">
@@ -153,6 +156,7 @@ export default function OnboardingCaseStudyPage() {
                         src={onboardingCaseStudy.problemDetails.additionalProblems.gifEmbed}
                         title="Onboarding meme"
                         className="h-full w-full"
+                        loading="lazy"
                         allowFullScreen
                       />
                     </div>
@@ -179,7 +183,7 @@ export default function OnboardingCaseStudyPage() {
                   <div className="grid gap-3 md:grid-cols-2">
                     {onboardingCaseStudy.solution.sprint.ideaFigures.map((figure) => (
                       <div key={figure.src} className="overflow-hidden rounded-xl bg-white p-2">
-                        <img src={figure.src} alt={figure.alt} className="h-full w-full object-contain" loading="lazy" />
+                        <Image src={figure.src} alt={figure.alt} width={1200} height={800} sizes="(max-width: 809px) 100vw, 50vw" className="h-full w-full object-contain" />
                       </div>
                     ))}
                   </div>
@@ -260,7 +264,7 @@ export default function OnboardingCaseStudyPage() {
           <div className="flex flex-col items-center gap-20">
             <div className="flex w-full max-w-[800px] flex-col items-center gap-10 text-center">
               <div className="h-[112px] w-[112px] overflow-hidden rounded-full">
-                <img src={homeContent.logo} alt="Design Port logo" className="h-full w-full object-cover" loading="lazy" />
+                <Image src={homeContent.logo} alt="Design Port logo" width={1969} height={1969} sizes="112px" className="h-full w-full object-cover" />
               </div>
 
               <div className="flex flex-col items-center gap-4">
@@ -337,7 +341,7 @@ function InfoBlock({ title, value }: { title: string; value: string }) {
 function FigureBlock({ figure, captionOverride }: { figure: { src: string; alt: string; caption?: string }; captionOverride?: string }) {
   return (
     <figure className="overflow-hidden rounded-xl border border-white bg-white">
-      <img src={figure.src} alt={figure.alt} className="h-auto max-h-[560px] w-full object-cover" loading="lazy" />
+      <Image src={figure.src} alt={figure.alt} width={1440} height={900} sizes="(max-width: 809px) 100vw, 860px" className="h-auto max-h-[560px] w-full object-cover" />
       {captionOverride || figure.caption ? (
         <figcaption className="border-t border-white px-4 py-3 text-center text-sm text-[var(--color-muted)]">{captionOverride || figure.caption}</figcaption>
       ) : null}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Button, Card, Container, Section } from "@packages/ui";
 import { hrmsCaseStudy, homeContent } from "@/lib/site-content";
@@ -56,7 +57,9 @@ export default function HrmsDashboardPage() {
                   <h2 className="mt-1 text-2xl font-bold tracking-tight md:text-3xl">{step.title}</h2>
                   <p className="content-prose mt-4">{step.description}</p>
                 </div>
-                <img src={step.image} alt={step.alt} className="h-full min-h-64 w-full object-cover" loading="lazy" />
+                <div className="relative min-h-64 w-full">
+                  <Image src={step.image} alt={step.alt} fill sizes="(max-width: 809px) 100vw, 40vw" className="object-cover" />
+                </div>
               </div>
             </Card>
           ))}

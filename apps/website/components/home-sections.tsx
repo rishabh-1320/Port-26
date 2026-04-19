@@ -1,44 +1,29 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
 import { Card, Container, Section } from "@packages/ui";
+import { HeroGradientCanvas, HeroRotator } from "@/components/home-hero-dynamic";
 import type { HomeContent, ProcessStep } from "@/lib/types";
 
 type HomeSectionsProps = {
   content: HomeContent;
 };
 
-const HERO_ROTATION_MS = 3600;
-const HERO_STAGGER_MS = 22;
-
 export function HomeSections({ content }: HomeSectionsProps) {
-  const heroPhrases = useMemo(() => {
-    const phrases = [content.hero.highlight, content.hero.support].filter((value): value is string => Boolean(value?.trim()));
-    return phrases.length > 0 ? phrases : [content.hero.support];
-  }, [content.hero.highlight, content.hero.support]);
+  const heroPhrases = getHeroPhrases(content.hero.highlight, content.hero.support);
 
   return (
     <>
       {/* ─── HERO ─── */}
-      <Section className="pb-0 pt-14 md:pt-20">
-        <Container className="max-w-[1600px]">
-          <style>{`
-            @keyframes blob {
-              0% { transform: translate(0px, 0px) scale(1); }
-              33% { transform: translate(30px, -50px) scale(1.08); }
-              66% { transform: translate(-20px, 20px) scale(0.94); }
-              100% { transform: translate(0px, 0px) scale(1); }
-            }
-            .animate-blob { animation: blob 7s infinite; }
-            .animation-delay-2000 { animation-delay: 2s; }
-            .animation-delay-4000 { animation-delay: 4s; }
-          `}</style>
+      <Section className="pb-0 pt-[40px] md:pt-[64px] xl:pt-[80px]">
+        <Container className="relative max-w-[1600px]">
+          <div className="hero-gradient-field pointer-events-none">
+            <HeroGradientCanvas />
+          </div>
 
-          <div className="relative z-10 flex flex-col items-center gap-8 text-center">
-            <div className="relative z-20 flex max-w-[900px] flex-col items-center gap-3">
+          <div className="relative z-10 flex flex-col items-center gap-8 text-center md:gap-10 xl:gap-20">
+            <div className="relative z-20 flex w-full max-w-[1000px] flex-col items-center gap-4">
               <h1
-                className="text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.02em] text-[#181818] md:text-[80px] md:leading-[88px]"
+                className="text-balance text-[40px] font-semibold leading-[52px] tracking-[-0.02em] text-[#181818] md:text-[64px] md:leading-[76px] xl:text-[80px] xl:leading-[96px]"
                 style={{ fontFamily: '"Aileron", sans-serif' }}
               >
                 <span className="block">{content.hero.lead}</span>
@@ -46,135 +31,80 @@ export function HomeSections({ content }: HomeSectionsProps) {
               </h1>
 
               <p
-                className="mt-5 max-w-[92%] text-lg leading-7 text-[#5f5f5f] md:max-w-[44%] md:leading-[30px]"
+                className="mt-2 max-w-[680px] text-[18px] leading-[26px] text-[#5f5f5f] md:text-[20px] md:leading-[30px]"
                 style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}
               >
                 {content.hero.intro}
               </p>
             </div>
 
-            <div className="relative z-10 mt-4 flex w-full max-w-[1000px] justify-center">
-              <div className="pointer-events-none absolute inset-x-0 -top-20 -z-10 flex h-[600px] w-full justify-center opacity-60">
-                <div className="animate-blob absolute left-1/4 top-10 h-[350px] w-[350px] rounded-full bg-[#BBF451] mix-blend-multiply blur-[100px]" />
-                <div className="animate-blob animation-delay-2000 absolute right-1/3 top-0 h-[350px] w-[350px] rounded-full bg-[#4FA1FF] mix-blend-multiply blur-[100px]" />
-                <div className="animate-blob animation-delay-4000 absolute bottom-10 left-1/3 h-[400px] w-[400px] rounded-full bg-[#FFF89A] mix-blend-multiply blur-[100px]" />
-              </div>
-
-              <div className="relative w-full overflow-hidden rounded-t-[24px] border border-white/60 bg-[#18181814] p-2 pb-0 backdrop-blur-[10px]">
-                <img
+            <div className="relative z-10 w-full">
+              <div className="relative mx-auto w-full max-w-[1000px] overflow-hidden rounded-t-[24px] border border-white/60 bg-[#18181814] p-2 pb-0 backdrop-blur-[10px]">
+                <Image
                   src={content.hero.image}
                   alt="Dashboard Graphic"
+                  width={2290}
+                  height={1474}
+                  priority
+                  sizes="(max-width: 809px) calc(100vw - 32px), (max-width: 1439px) min(1000px, calc(100vw - 32px)), 1000px"
                   className="pointer-events-none h-auto w-full select-none rounded-t-[16px] object-cover object-top"
-                  loading="eager"
                 />
               </div>
 
-              <div
-                className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 h-[240px]"
-                style={{
-                  mask: "linear-gradient(transparent 0%, #000 100%)",
-                  WebkitMask: "linear-gradient(transparent 0%, #000 100%)",
-                  backgroundColor: "white"
-                }}
-              />
+              <div className="hero-mockup-mask pointer-events-none absolute bottom-0 left-1/2 z-20 w-full max-w-[1000px] -translate-x-1/2" />
             </div>
           </div>
         </Container>
       </Section>
 
       {/* ─── MY DESIGN PROCESS ─── */}
-      <Section className="py-20 md:py-24">
-        <Container className="max-w-[1600px]">
-          <div className="mx-auto mb-14 flex max-w-[640px] flex-col items-center space-y-4 text-center">
-            <span className="section-eyebrow">How do I work?</span>
-            <h2
-              className="text-4xl font-semibold tracking-[-0.02em] md:text-6xl"
-              style={{ fontFamily: '"Aileron", sans-serif' }}
-            >
+      <Section id="how-it-works" className="process-section">
+        <Container className="process-container">
+          <div className="process-headline">
+            <span className="framer-chip framer-chip-blue process-chip">How do i work?</span>
+            <h2 className="process-title" style={{ fontFamily: '"Aileron", sans-serif' }}>
               My Design <span className="text-[#8e8e8e]">Process</span>
             </h2>
-            <p className="max-w-[560px] text-xl leading-8 text-[#181818]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
+            <p className="process-intro" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em" }}>
               {content.processIntro}
             </p>
           </div>
 
-          <div className="mx-auto w-full max-w-[1066px]">
-            <div className="relative">
-              <div className="pointer-events-none absolute inset-0 z-0 hidden lg:block">
-                <div className="mx-auto flex h-full w-full max-w-[1000px] justify-between px-1">
-                  {content.processSteps.map((step) => (
-                    <div key={`guide-${step.id}`} className="flex h-full w-px flex-col items-center">
-                      <span className="text-sm tracking-[-0.01em] text-[#d8d8d8]">{step.id}</span>
-                      <span className="mt-2 h-full w-px bg-gradient-to-b from-[#e0e0e0] via-[#e0e0e0]/70 to-transparent" />
-                    </div>
-                  ))}
+          <div className="process-content">
+            <div className="process-lines" aria-hidden="true">
+              {Array.from({ length: 6 }, (_, index) => (
+                <div key={`process-guide-${index}`} className="process-line-column">
+                  <span className="process-line-label">{`${index + 1}`.padStart(2, "0")}</span>
+                  <span className="process-line-track" />
                 </div>
-              </div>
+              ))}
+            </div>
 
-              <div className="relative z-10 flex flex-col gap-6 md:gap-7 lg:gap-8">
-                <div className="flex flex-col gap-6 md:gap-7 lg:hidden">
-                  {content.processSteps.map((step, index) => (
-                    <article
-                      key={step.id}
-                      className="relative w-full max-w-[600px] self-center overflow-hidden rounded-2xl border border-white/70 p-4 opacity-0 shadow-[0_26px_44px_-30px_rgba(24,24,24,0.45),0_10px_18px_-14px_rgba(24,24,24,0.24)] motion-safe:animate-fade-up md:p-5"
-                      style={{
-                        backgroundColor: step.bgColor,
-                        color: step.textColor,
-                        animationDelay: `${index * 80}ms`,
-                        animationFillMode: "forwards"
-                      }}
-                    >
-                      <ProcessStepCardContent step={step} />
-                    </article>
-                  ))}
+            <div className="process-cards">
+              {content.processSteps.map((step, index) => (
+                <div key={step.id} className={getProcessRowClasses(index)}>
+                  <article
+                    className="process-card process-card-motion"
+                    style={{
+                      backgroundColor: step.bgColor,
+                      animationDelay: `${index * 90}ms`,
+                      animationFillMode: "forwards"
+                    }}
+                  >
+                    <ProcessStepCardContent step={step} />
+                  </article>
                 </div>
-
-                <div className="hidden lg:grid lg:grid-cols-2 lg:gap-8">
-                  <div className="flex flex-col gap-8">
-                    {content.processSteps.slice(0, 2).map((step, index) => (
-                      <article
-                        key={step.id}
-                        className="relative w-full overflow-hidden rounded-2xl border border-white/70 p-5 opacity-0 shadow-[0_26px_44px_-30px_rgba(24,24,24,0.45),0_10px_18px_-14px_rgba(24,24,24,0.24)] motion-safe:animate-fade-up"
-                        style={{
-                          backgroundColor: step.bgColor,
-                          color: step.textColor,
-                          animationDelay: `${index * 80}ms`,
-                          animationFillMode: "forwards"
-                        }}
-                      >
-                        <ProcessStepCardContent step={step} />
-                      </article>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-col gap-8">
-                    {content.processSteps.slice(2, 4).map((step, index) => (
-                      <article
-                        key={step.id}
-                        className="relative w-full overflow-hidden rounded-2xl border border-white/70 p-5 opacity-0 shadow-[0_26px_44px_-30px_rgba(24,24,24,0.45),0_10px_18px_-14px_rgba(24,24,24,0.24)] motion-safe:animate-fade-up"
-                        style={{
-                          backgroundColor: step.bgColor,
-                          color: step.textColor,
-                          animationDelay: `${(index + 2) * 80}ms`,
-                          animationFillMode: "forwards"
-                        }}
-                      >
-                        <ProcessStepCardContent step={step} />
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </Container>
       </Section>
 
       {/* ─── WORKS / MY BEST WORK ─── */}
-      <Section id="features" className="bg-[#f5f5f5] py-16 md:py-20">
+      <Section id="features" className="section-deferred bg-[#f5f5f5] py-16 md:py-20">
         <Container className="max-w-[1600px]">
           <div className="mx-auto mb-16 flex max-w-[640px] flex-col items-center space-y-4 text-center">
-            <span className="section-eyebrow">My Best Work</span>
+            <span className="framer-chip framer-chip-blue">My Work</span>
             <h2
               className="text-4xl font-semibold tracking-[-0.02em] md:text-6xl"
               style={{ fontFamily: '"Aileron", sans-serif' }}
@@ -186,28 +116,19 @@ export function HomeSections({ content }: HomeSectionsProps) {
             </p>
           </div>
 
-          <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-12 lg:gap-[clamp(72px,8vh,120px)]">
+          <div className="mx-auto flex w-full max-w-[1300px] flex-col gap-10 md:gap-12">
             {content.works.map((item, index) => (
               <div
                 key={item.id}
-                className="sticky"
+                className="sticky w-full"
                 style={{
                   top: `clamp(${84 + index * 10}px, calc(4vw + ${72 + index * 6}px), ${112 + index * 18}px)`,
                   zIndex: 20 + index
                 }}
               >
-                <div className="flex w-full flex-col items-stretch gap-4 rounded-[22px] border border-black/[0.06] bg-[#fafafa] p-3 shadow-[0_10px_24px_-22px_rgba(24,24,24,0.35)] md:flex-row">
-                  {index % 2 === 0 ? (
-                    <>
-                      <WorkTextCard item={item} index={index} />
-                      <WorkImageCard item={item} />
-                    </>
-                  ) : (
-                    <>
-                      <WorkImageCard item={item} />
-                      <WorkTextCard item={item} index={index} />
-                    </>
-                  )}
+                <div className="flex w-full flex-col items-stretch gap-2.5 rounded-[30px] border border-black/[0.08] bg-[#f8f8f7] p-2.5 shadow-[0_20px_60px_-45px_rgba(24,24,24,0.65)] md:min-h-[460px] md:flex-row">
+                  <WorkTextCard item={item} index={index} />
+                  <WorkImageCard item={item} />
                 </div>
               </div>
             ))}
@@ -216,69 +137,45 @@ export function HomeSections({ content }: HomeSectionsProps) {
       </Section>
 
       {/* ─── AI EXPLORATION ─── */}
-      <Section id="ai-exploration" className="py-16 md:py-20">
+      <Section id="ai-exploration" className="section-deferred bg-white pb-[120px] pt-[40px] md:pb-[128px] md:pt-[64px] xl:pb-[160px] xl:pt-[80px]">
         <Container className="max-w-[1600px]">
-          <div className="mx-auto mb-16 flex max-w-[600px] flex-col items-center space-y-4 text-center">
-            <span className="section-eyebrow">AI Explorations</span>
+          <div className="mx-auto mb-10 flex w-full max-w-[1000px] flex-col items-center gap-2 text-center md:mb-12">
+            <span className="framer-chip framer-chip-blue">Pet Projects</span>
             <h2
               className="text-4xl font-semibold tracking-[-0.02em] md:text-6xl"
               style={{ fontFamily: '"Aileron", sans-serif' }}
             >
-              Side <span className="text-[#8e8e8e]">Projects</span>
+              AI <span className="text-[#8e8e8e]">Explorations</span>
             </h2>
+            <p className="max-w-[740px] text-[18px] leading-[26px] text-[#181818] md:text-[20px] md:leading-[30px]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em" }}>
+              Stay motivated and improve faster with practical tips from me.
+            </p>
           </div>
 
           <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 md:flex-row">
             {content.aiExplorations.map((item) => (
-              <div key={item.id} className="flex-1 overflow-hidden rounded-2xl bg-white">
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img src={item.image} alt={item.title} className="h-full w-full object-cover" loading="lazy" />
-                </div>
-                <div className="flex flex-col gap-3 p-6">
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span key={`${item.id}-${tag}`} className="rounded-full border border-black/10 px-3 py-1 text-xs font-semibold tracking-wider text-[#8e8e8e]">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="text-3xl font-semibold tracking-[-0.02em]" style={{ fontFamily: '"Aileron", sans-serif' }}>
-                    {item.title}
-                  </h3>
-                  <p className="text-base leading-7 text-[#8e8e8e]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
-                    {item.description}
-                  </p>
-
-                  {item.active && item.href ? (
-                    <Link href={item.href} className="mt-2 w-fit">
-                      <span className="framer-btn-primary">{item.ctaLabel}</span>
-                    </Link>
-                  ) : (
-                    <span className="framer-btn-neutral mt-2 w-fit" aria-disabled="true">
-                      {item.ctaLabel}
-                    </span>
-                  )}
-                </div>
-              </div>
+              <AiExplorationCard key={item.id} item={item} />
             ))}
           </div>
         </Container>
       </Section>
 
       {/* ─── MEET RISHABH / ABOUT ─── */}
-      <Section id="about" className="py-16 md:py-20">
-        <Container>
-          <div className="mx-auto mb-16 flex max-w-[600px] flex-col items-center space-y-4 text-center">
-            <span className="section-eyebrow">{content.coursesTitle}</span>
+      <Section id="about" className="section-deferred pb-[40px] pt-[120px] md:pb-[64px] md:pt-[128px] xl:pb-[80px] xl:pt-[160px]">
+        <Container className="max-w-[1600px]">
+          <div className="mx-auto mb-10 flex w-full max-w-[1000px] flex-col items-center gap-2 text-center md:mb-12">
+            <span className="framer-chip framer-chip-lime">{content.coursesTitle}</span>
             <h2 className="text-4xl font-semibold tracking-[-0.02em] md:text-6xl" style={{ fontFamily: '"Aileron", sans-serif' }}>
               Meet <span className="text-[#8e8e8e]">Rishabh!</span>
             </h2>
-            <p className="max-w-[480px] text-[var(--color-muted)] md:text-lg">{content.coursesIntro}</p>
+            <p className="max-w-[1000px] text-[18px] leading-[26px] text-[#181818] md:text-[20px] md:leading-[30px]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em" }}>
+              {content.coursesIntro}
+            </p>
           </div>
 
-          <div className="mx-auto flex w-full max-w-[1000px] flex-col gap-4 md:flex-row">
+          <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-2 rounded-[24px] bg-[#f5f5f5] p-2 md:grid-cols-2">
             {content.experiences.map((item) => (
-              <Card key={item.company} className="flex flex-1 flex-col gap-4 rounded-2xl bg-white p-6">
+              <Card key={item.company} className="flex h-full flex-col gap-4 rounded-2xl bg-white p-6 md:p-7">
                 <div className="flex items-center gap-2 text-sm leading-6 text-[#8e8e8e]" style={{ fontFamily: '"Aileron", sans-serif' }}>
                   <span>{item.periodStart}</span>
                   <span aria-hidden="true">-</span>
@@ -286,7 +183,14 @@ export function HomeSections({ content }: HomeSectionsProps) {
                 </div>
                 <div className="flex items-center gap-3.5">
                   <div className="h-10 w-10 overflow-hidden rounded-[10px] bg-[#f5f5f5]">
-                    <img src={item.logoSrc} alt={`${item.company} logo`} className="h-full w-full object-cover" loading="lazy" />
+                    <Image
+                      src={item.logoSrc}
+                      alt={`${item.company} logo`}
+                      width={200}
+                      height={200}
+                      sizes="40px"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                   <h3 className="text-2xl font-semibold tracking-[-0.02em]" style={{ fontFamily: '"Aileron", sans-serif' }}>
                     {item.company}
@@ -299,7 +203,7 @@ export function HomeSections({ content }: HomeSectionsProps) {
                   href={item.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex w-fit items-center rounded-2xl bg-[#f5f5f5] px-4 py-2 text-sm font-medium tracking-[-0.01em] text-[#181818] transition-colors duration-200 hover:bg-[#ececec]"
+                  className="inline-flex w-fit items-center rounded-2xl bg-[#f5f5f5] px-4 py-2 text-sm font-medium tracking-[-0.01em] text-[#181818]"
                   style={{ fontFamily: '"Aileron", sans-serif' }}
                 >
                   {item.role}
@@ -311,7 +215,7 @@ export function HomeSections({ content }: HomeSectionsProps) {
       </Section>
 
       {/* ─── IMAGE GALLERY — FUN STUFF ─── */}
-      <Section id="gallery" className="bg-[#f5f5f5] py-16 md:py-20">
+      <Section id="gallery" className="section-deferred bg-[#f5f5f5] py-16 md:py-20">
         <Container>
           <div className="mx-auto mb-16 flex max-w-3xl flex-col items-center space-y-4 text-center">
             <span className="rounded-full bg-blue-100/60 px-4 py-1.5 text-xs font-semibold tracking-wider text-blue-600">Fun Stuff</span>
@@ -325,21 +229,42 @@ export function HomeSections({ content }: HomeSectionsProps) {
             <div className="flex justify-center gap-2">
               {content.gallery.slice(0, 4).map((item, i) => (
                 <div key={`g1-${i}`} className="aspect-square w-[240px] shrink-0 overflow-hidden rounded-full">
-                  <img src={item.src} alt={item.alt} className="h-full w-full object-cover" loading="lazy" />
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={512}
+                    height={512}
+                    sizes="(max-width: 809px) 30vw, 240px"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               ))}
             </div>
             <div className="flex justify-center gap-2">
               {content.gallery.slice(4, 7).map((item, i) => (
                 <div key={`g2-${i}`} className="aspect-square w-[240px] shrink-0 overflow-hidden rounded-full">
-                  <img src={item.src} alt={item.alt} className="h-full w-full object-cover" loading="lazy" />
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={512}
+                    height={512}
+                    sizes="(max-width: 809px) 30vw, 240px"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               ))}
             </div>
             <div className="flex justify-center">
               {content.gallery.slice(7, 8).map((item, i) => (
                 <div key={`g3-${i}`} className="aspect-square w-[240px] overflow-hidden rounded-full">
-                  <img src={item.src} alt={item.alt} className="h-full w-full object-cover" loading="lazy" />
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={512}
+                    height={512}
+                    sizes="(max-width: 809px) 30vw, 240px"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -348,12 +273,12 @@ export function HomeSections({ content }: HomeSectionsProps) {
       </Section>
 
       {/* ─── FOOTER / CONTACT ─── */}
-      <Section className="bg-[#181818] py-20 md:py-20">
+      <Section className="section-deferred bg-[#181818] py-20 md:py-20">
         <Container className="max-w-[1000px]">
           <div className="flex flex-col items-center gap-20">
             <div className="flex w-full max-w-[800px] flex-col items-center gap-10 text-center">
               <div className="h-[112px] w-[112px] overflow-hidden rounded-full">
-                <img src={content.logo} alt="Design Port logo" className="h-full w-full object-cover" loading="lazy" />
+                <Image src={content.logo} alt="Design Port logo" width={1969} height={1969} sizes="112px" className="h-full w-full object-cover" />
               </div>
 
               <div className="flex flex-col items-center gap-4">
@@ -418,108 +343,142 @@ export function HomeSections({ content }: HomeSectionsProps) {
   );
 }
 
-function HeroRotator({ phrases }: { phrases: string[] }) {
-  const [currentPhrase, setCurrentPhrase] = useState(phrases[0] || "");
-  const [nextPhrase, setNextPhrase] = useState<string | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  useEffect(() => {
-    setCurrentPhrase(phrases[0] || "");
-    setNextPhrase(null);
-    setIsTransitioning(false);
-  }, [phrases]);
-
-  useEffect(() => {
-    if (phrases.length < 2) {
-      return;
-    }
-
-    let transitionTimeoutId: number | null = null;
-    const intervalId = window.setInterval(() => {
-      setCurrentPhrase((previousPhrase) => {
-        const currentIndex = Math.max(phrases.indexOf(previousPhrase), 0);
-        const upcomingPhrase = phrases[(currentIndex + 1) % phrases.length];
-
-        setNextPhrase(upcomingPhrase);
-        setIsTransitioning(true);
-
-        if (transitionTimeoutId !== null) {
-          window.clearTimeout(transitionTimeoutId);
-        }
-
-        transitionTimeoutId = window.setTimeout(() => {
-          setCurrentPhrase(upcomingPhrase);
-          setNextPhrase(null);
-          setIsTransitioning(false);
-        }, 560);
-
-        return previousPhrase;
-      });
-    }, HERO_ROTATION_MS);
-
-    return () => {
-      window.clearInterval(intervalId);
-      if (transitionTimeoutId !== null) {
-        window.clearTimeout(transitionTimeoutId);
-      }
-    };
-  }, [phrases]);
-
-  return (
-    <span className={`hero-rotator ${isTransitioning ? "is-transitioning" : ""}`} aria-live="polite">
-      <span className="sr-only">{currentPhrase}</span>
-      <HeroLine text={currentPhrase} variant="current" />
-      {nextPhrase && <HeroLine text={nextPhrase} variant="next" />}
-    </span>
-  );
-}
-
 function ProcessStepCardContent({ step }: { step: ProcessStep }) {
   return (
-    <>
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
-      <div className="relative z-10 flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-[10px] text-sm font-semibold"
-            style={{ backgroundColor: step.textColor === "#ffffff" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.08)" }}
-          >
-            {step.id}
-          </div>
-          <h3 className="text-xl font-semibold leading-7 tracking-[-0.02em] md:text-[22px]" style={{ fontFamily: '"Aileron", sans-serif' }}>
-            {step.title}
-          </h3>
+    <div className="process-card-content">
+      <div className="process-card-header">
+        <div className="process-card-icon-wrap">
+          <ProcessStepIcon id={step.id} />
         </div>
-
-        <p className="text-base leading-6 md:text-[18px]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em", opacity: step.textColor === "#ffffff" ? 0.9 : 0.88 }}>
-          {step.description}
-        </p>
+        <h3 className="process-card-title" style={{ color: getProcessTitleColor(step.id), fontFamily: '"Aileron", sans-serif' }}>
+          {step.title}
+        </h3>
       </div>
-    </>
+
+      <p className="process-card-description" style={{ color: getProcessDescriptionColor(step.id, step.textColor), fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em" }}>
+        {step.description}
+      </p>
+    </div>
   );
 }
 
-function HeroLine({ text, variant }: { text: string; variant: "current" | "next" }) {
-  const words = text.trim().split(/\s+/);
-  let charOffset = 0;
+function AiExplorationCard({ item }: { item: HomeContent["aiExplorations"][0] }) {
+  return (
+    <div className="flex flex-1 flex-col gap-4 rounded-[26px] border border-black/[0.08] bg-[#fafafa] p-2.5">
+      <div className="w-[70%] self-center overflow-hidden rounded-[18px]">
+        <Image
+          src={item.image}
+          alt={item.title}
+          width={1200}
+          height={750}
+          sizes="(max-width: 809px) 100vw, (max-width: 1439px) 50vw, 780px"
+          className="aspect-[4/3] h-full w-full object-cover"
+          unoptimized={isSvgUrl(item.image)}
+        />
+      </div>
+
+      <div className="flex flex-1 flex-col gap-3 rounded-[18px] bg-white p-5 md:p-6">
+        <h3 className="text-[28px] font-semibold leading-[1.06] tracking-[-0.02em] md:text-[34px]" style={{ fontFamily: '"Aileron", sans-serif' }}>
+          {item.title}
+        </h3>
+
+        <p className="text-[16px] leading-7 text-[#6f6f6f]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em" }}>
+          {item.description}
+        </p>
+
+        <div className="flex flex-wrap gap-2">
+          {item.tags.map((tag) => (
+            <span key={`${item.id}-${tag}`} className="case-tag">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-2">
+          {item.active && item.href ? (
+            <Link href={item.href} className="case-cta w-fit">
+              <CaseCtaLabel label={item.ctaLabel} />
+            </Link>
+          ) : (
+            <span className="case-cta-disabled w-fit" aria-disabled="true">
+              <CaseCtaLabel label={item.ctaLabel} />
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function getProcessRowClasses(index: number) {
+  if (index === 0) {
+    return "process-row process-row-01";
+  }
+
+  if (index === 1) {
+    return "process-row process-row-02";
+  }
+
+  if (index === 2) {
+    return "process-row process-row-03";
+  }
+
+  return "process-row process-row-04";
+}
+
+function getProcessTitleColor(id: string) {
+  return id === "03" || id === "04" ? "#ffffff" : "#181818";
+}
+
+function getProcessDescriptionColor(id: string, defaultColor: string) {
+  if (id === "04") {
+    return "#e0e0e0";
+  }
+
+  if (id === "03") {
+    return "#ffffff";
+  }
+
+  return defaultColor;
+}
+
+function ProcessStepIcon({ id }: { id: string }) {
+  const stroke = id === "03" || id === "04" ? "#ffffff" : "#181818";
+
+  if (id === "01") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="#4FA1FF" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 20l4-1 10-10a2.2 2.2 0 0 0-3.1-3.1L4.9 15.8 4 20z" />
+        <path d="M13.7 6.3l4 4" />
+      </svg>
+    );
+  }
+
+  if (id === "02") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke={stroke} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 20c-4.2 0-7-2.8-7-7 0-4.7 3.4-8.4 7-9 3.6.6 7 4.3 7 9 0 4.2-2.8 7-7 7z" />
+        <path d="M12 4v16" />
+        <path d="M7 11c2.5 0 4.5 1.6 5 4" />
+        <path d="M17 11c-2.5 0-4.5 1.6-5 4" />
+      </svg>
+    );
+  }
+
+  if (id === "03") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="#ffffff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3.5" y="5.5" width="17" height="13" rx="2.5" />
+        <path d="M10 9l5 3-5 3V9z" />
+      </svg>
+    );
+  }
 
   return (
-    <span className={`hero-line hero-line-${variant}`} aria-hidden="true">
-      {words.map((word, wordIndex) => {
-        const currentOffset = charOffset;
-        charOffset += word.length + 1;
-
-        return (
-          <span key={`${text}-word-${wordIndex}`} className="hero-word">
-            {Array.from(word).map((character, index) => (
-              <span key={`${text}-${wordIndex}-${index}`} className="hero-char" style={{ transitionDelay: `${(currentOffset + index) * HERO_STAGGER_MS}ms` }}>
-                {character}
-              </span>
-            ))}
-          </span>
-        );
-      })}
-    </span>
+    <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="#BBF451" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z" />
+      <path d="M18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z" />
+    </svg>
   );
 }
 
@@ -527,33 +486,35 @@ function HeroLine({ text, variant }: { text: string; variant: "current" | "next"
 
 function WorkTextCard({ item, index }: { item: HomeContent["works"][0]; index: number }) {
   return (
-    <div className="relative flex min-h-[400px] flex-1 flex-col justify-between overflow-hidden rounded-2xl bg-white p-7 md:p-8">
-      <div className="pointer-events-none absolute right-0 top-0 -mr-3 select-none text-[180px] font-bold leading-none text-black/[0.03]">0{index + 1}</div>
+    <div className="relative flex min-h-[340px] flex-1 flex-col justify-between overflow-hidden rounded-[24px] border border-black/[0.03] bg-white p-6 md:min-h-[445px] md:basis-[58%] md:p-8">
+      <div className="pointer-events-none absolute bottom-2 right-2 select-none text-[132px] font-bold leading-none text-black/[0.035] md:bottom-3 md:right-3 md:text-[176px]">0{index + 1}</div>
 
-      <div className="relative z-10 flex flex-col gap-3.5">
-        <div className="flex flex-wrap gap-1.5">
+      <div className="relative z-10 flex flex-col gap-4">
+        <h3 className="text-[34px] font-semibold leading-[1.03] tracking-[-0.02em] md:text-[46px]" style={{ fontFamily: '"Aileron", sans-serif' }}>
+          {item.title}
+        </h3>
+
+        <p className="max-w-[58ch] text-[16px] leading-7 text-[#686868]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
+          {item.description}
+        </p>
+
+        <div className="flex flex-wrap gap-2">
           {item.tags.map((tag) => (
-            <span key={`${item.id}-${tag}`} className="rounded-full border border-black/10 px-2.5 py-1 text-[11px] font-semibold tracking-[0.08em] text-[#8e8e8e]">
+            <span key={`${item.id}-${tag}`} className="case-tag">
               {tag}
             </span>
           ))}
         </div>
-        <h3 className="text-[30px] font-semibold leading-[1.04] tracking-[-0.02em] md:text-[44px]" style={{ fontFamily: '"Aileron", sans-serif' }}>
-          {item.title}
-        </h3>
-        <p className="max-w-[88%] text-[15px] leading-6 text-[#7f7f7f]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
-          {item.description}
-        </p>
       </div>
 
       <div className="relative z-10 mt-6">
         {item.active && item.href ? (
-          <Link href={item.href} className="w-fit">
-            <span className="framer-btn-primary">{item.ctaLabel}</span>
+          <Link href={item.href} className="case-cta w-fit">
+            <CaseCtaLabel label={item.ctaLabel} />
           </Link>
         ) : (
-          <span className="framer-btn-neutral w-fit" aria-disabled="true">
-            {item.ctaLabel}
+          <span className="case-cta-disabled w-fit" aria-disabled="true">
+            <CaseCtaLabel label={item.ctaLabel} />
           </span>
         )}
       </div>
@@ -563,16 +524,31 @@ function WorkTextCard({ item, index }: { item: HomeContent["works"][0]; index: n
 
 function WorkImageCard({ item }: { item: HomeContent["works"][0] }) {
   return (
-    <div className="group relative flex-1 overflow-hidden rounded-2xl bg-white p-2 md:p-2.5">
-      <div className="h-full overflow-hidden rounded-[18px] bg-[#f2f2f2]">
-        <img
+    <div className="group relative flex-1 overflow-hidden rounded-[24px] border border-black/[0.03] bg-white p-2 md:basis-[42%] md:p-2.5">
+      <div className="h-full overflow-hidden rounded-[20px] bg-[#f2f2f2]">
+        <Image
           src={item.image}
           alt={item.title}
+          width={1600}
+          height={1200}
+          sizes="(max-width: 809px) 100vw, (max-width: 1439px) 50vw, 780px"
           className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-          loading="lazy"
+          unoptimized={isSvgUrl(item.image)}
         />
       </div>
     </div>
+  );
+}
+
+function CaseCtaLabel({ label }: { label: string }) {
+  return (
+    <>
+      <span>{label}</span>
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="case-cta-icon">
+        <path d="M3 8h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </>
   );
 }
 
@@ -601,4 +577,13 @@ function getSocialShortLabel(label: string) {
   }
 
   return label.slice(0, 2).toUpperCase();
+}
+
+function getHeroPhrases(highlight: string, support: string) {
+  const phrases = [highlight, support].filter((value): value is string => Boolean(value?.trim()));
+  return phrases.length > 0 ? phrases : [support];
+}
+
+function isSvgUrl(url: string) {
+  return url.split("?")[0]?.toLowerCase().endsWith(".svg");
 }
