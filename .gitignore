@@ -13,3 +13,4 @@ package-lock.json
 yarn.lock
 Source dump/
 apps/**/tsconfig.tsbuildinfo
+services/**/tsconfig.tsbuildinfo
