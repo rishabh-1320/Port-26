@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Card, Container, Section } from "@packages/ui";
 import { ScrollSpyToc } from "@/components/case-study/scroll-spy-toc";
+import { ScrollProgressBar } from "@/components/scroll-progress-bar";
+import { GsapReveal } from "@/components/gsap-reveal";
 import { designSystemCaseStudy, type DesignSystemFigure, type DesignSystemSection } from "@/lib/design-system-case-study";
 import { homeContent } from "@/lib/site-content";
 
@@ -14,6 +16,7 @@ export const metadata: Metadata = {
 export default function DesignSystemCaseStudyPage() {
   return (
     <>
+      <ScrollProgressBar />
       <Section className="pb-8 pt-12 md:pb-10 md:pt-16">
         <Container>
           <Link href="/" className="text-sm font-semibold text-[var(--color-brand)] hover:underline">

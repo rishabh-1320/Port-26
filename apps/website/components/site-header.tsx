@@ -12,6 +12,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ content }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     function handleViewportChange() {
@@ -26,17 +27,21 @@ export function SiteHeader({ content }: SiteHeaderProps) {
       }
     }
 
+    const onScroll = () => setIsScrolled(window.scrollY > 40);
+
     window.addEventListener("resize", handleViewportChange);
     window.addEventListener("keydown", handleKeydown);
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       window.removeEventListener("resize", handleViewportChange);
       window.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white bg-white/80 backdrop-blur-[10px]">
+    <header className={`sticky top-0 z-40 transition-all duration-[400ms] ease-[var(--ease-out-quart)] ${isScrolled ? "border-b border-[var(--border-default)] bg-white/85 backdrop-blur-[12px]" : "border-b border-transparent bg-white/40 backdrop-blur-[6px]"}`}>
       <Container className="max-w-[1600px] px-4 md:px-6">
         <div className="flex h-[88px] items-center justify-between gap-4 md:h-[92px]">
           <Link href="/" className="flex min-w-fit items-center gap-3" onClick={() => setMenuOpen(false)}>

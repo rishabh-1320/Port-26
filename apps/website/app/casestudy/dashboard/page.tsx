@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Button, Card, Container, Section } from "@packages/ui";
+import { ScrollProgressBar } from "@/components/scroll-progress-bar";
+import { GsapReveal } from "@/components/gsap-reveal";
 import { hrmsCaseStudy, homeContent } from "@/lib/site-content";
 
 export const metadata: Metadata = {
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 export default function HrmsDashboardPage() {
   return (
     <>
+      <ScrollProgressBar />
       <Section className="pb-8 pt-12 md:pb-10 md:pt-16">
         <Container>
           <Link href="/" className="text-sm font-semibold text-[var(--color-brand)] hover:underline">

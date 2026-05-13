@@ -96,12 +96,15 @@ export function ScrollSpyToc({ items }: ScrollSpyTocProps) {
               setActiveId(item.id);
             }}
             aria-current={isActive ? "location" : undefined}
-            className={`whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs font-medium transition md:text-sm ${
+            className={`relative whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs font-medium transition md:text-sm ${
               isActive
                 ? "border-[var(--color-text)] bg-[var(--color-text)] text-white"
                 : "border-[var(--color-border)] text-[var(--color-text)] hover:bg-[#f5f5f5]"
             }`}
           >
+            {isActive && (
+              <span className="absolute -left-3 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[var(--brand-lime)]" />
+            )}
             {item.label}
           </a>
         );

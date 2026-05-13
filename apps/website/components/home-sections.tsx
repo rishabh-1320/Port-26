@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Card, Container, Section } from "@packages/ui";
-import { HeroGradientCanvas, HeroRotator } from "@/components/home-hero-dynamic";
+import { HeroRotator } from "@/components/home-hero-dynamic";
+import { HeroShaderCanvas } from "@/components/hero-shader-canvas";
+import { MagneticButton } from "@/components/magnetic-button";
+import { HeroMockupWrapper } from "@/components/hero-mockup-wrapper";
+import { ProcessLinesReveal } from "@/components/process-lines-reveal";
+import { SplitTextReveal } from "@/components/split-text-reveal";
+import { GsapReveal } from "@/components/gsap-reveal";
 import type { HomeContent, ProcessStep } from "@/lib/types";
 
 type HomeSectionsProps = {
@@ -16,14 +22,14 @@ export function HomeSections({ content }: HomeSectionsProps) {
   return (
     <>
       {/* ─── HERO ─── */}
-      <Section className="pb-0 pt-[40px] md:pt-[64px] xl:pt-[80px]">
-        <Container className="relative max-w-[1600px]">
-          <div className="hero-gradient-field pointer-events-none">
-            <HeroGradientCanvas />
-          </div>
+      <Section className="relative pb-0 pt-[40px] md:pt-[64px] xl:pt-[80px]">
+        <div className="hero-gradient-field">
+          <HeroShaderCanvas />
+        </div>
 
+        <Container className="relative z-10 max-w-[1600px]">
           <div className="relative z-10 flex flex-col items-center gap-8 text-center md:gap-10 xl:gap-20">
-            <div className="relative z-20 flex w-full max-w-[1000px] flex-col items-center gap-4">
+            <GsapReveal preset="fadeUp" delay={0.1} className="relative z-20 flex w-full max-w-[1000px] flex-col items-center gap-4">
               <h1
                 className="text-balance text-[40px] font-semibold leading-[52px] tracking-[-0.02em] text-[#181818] md:text-[64px] md:leading-[76px] xl:text-[80px] xl:leading-[96px]"
                 style={{ fontFamily: '"Aileron", sans-serif' }}
@@ -41,15 +47,20 @@ export function HomeSections({ content }: HomeSectionsProps) {
 
               <div className="mt-2 flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link href="/#features" className="w-full sm:w-auto">
-                  <span className="framer-btn-primary w-full sm:w-auto">View Selected Work</span>
+                  <MagneticButton>
+                    <span className="framer-btn-primary w-full sm:w-auto">View Selected Work</span>
+                  </MagneticButton>
                 </Link>
                 <Link href={`mailto:${content.email}`} className="w-full sm:w-auto">
-                  <span className="framer-btn-secondary w-full sm:w-auto">Contact Me</span>
+                  <MagneticButton>
+                    <span className="framer-btn-secondary w-full sm:w-auto">Contact Me</span>
+                  </MagneticButton>
                 </Link>
               </div>
-            </div>
+            </GsapReveal>
 
-            <div className="relative z-10 w-full">
+            <GsapReveal preset="scaleUp" delay={0.35} className="relative z-10 w-full">
+              <HeroMockupWrapper>
               <div className="relative mx-auto w-full max-w-[1000px] overflow-hidden rounded-t-[24px] border border-white/60 bg-[#18181814] p-2 pb-0 backdrop-blur-[10px]">
                 <Image
                   src={content.hero.image}
@@ -63,7 +74,8 @@ export function HomeSections({ content }: HomeSectionsProps) {
               </div>
 
               <div className="hero-mockup-mask pointer-events-none absolute bottom-0 left-1/2 z-20 w-full max-w-[1000px] -translate-x-1/2" />
-            </div>
+              </HeroMockupWrapper>
+            </GsapReveal>
           </div>
         </Container>
       </Section>
@@ -71,7 +83,7 @@ export function HomeSections({ content }: HomeSectionsProps) {
       {/* ─── MY DESIGN PROCESS ─── */}
       <Section id="how-it-works" className="process-section">
         <Container className="process-container">
-          <div className="process-headline">
+          <GsapReveal preset="fadeUp" className="process-headline">
             <span className="framer-chip framer-chip-blue process-chip">How do I work?</span>
             <h2 className="process-title" style={{ fontFamily: '"Aileron", sans-serif' }}>
               My Design <span className="text-[#8e8e8e]">Process</span>
@@ -79,9 +91,10 @@ export function HomeSections({ content }: HomeSectionsProps) {
             <p className="process-intro" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em" }}>
               {content.processIntro}
             </p>
-          </div>
+          </GsapReveal>
 
           <div className="process-content">
+            <ProcessLinesReveal />
             <div className="process-lines" aria-hidden="true">
               {Array.from({ length: 6 }, (_, index) => (
                 <div key={`process-guide-${index}`} className="process-line-column">
@@ -91,22 +104,18 @@ export function HomeSections({ content }: HomeSectionsProps) {
               ))}
             </div>
 
-            <div className="process-cards">
+            <GsapReveal preset="fadeUp" childSelector=".process-row" stagger={0.12} className="process-cards">
               {content.processSteps.map((step, index) => (
                 <div key={step.id} className={getProcessRowClasses(index)}>
                   <article
-                    className="process-card process-card-motion"
-                    style={{
-                      backgroundColor: step.bgColor,
-                      animationDelay: `${index * 90}ms`,
-                      animationFillMode: "forwards"
-                    }}
+                    className="process-card"
+                    style={{ backgroundColor: step.bgColor }}
                   >
                     <ProcessStepCardContent step={step} />
                   </article>
                 </div>
               ))}
-            </div>
+            </GsapReveal>
           </div>
         </Container>
       </Section>
@@ -114,7 +123,7 @@ export function HomeSections({ content }: HomeSectionsProps) {
       {/* ─── WORKS / MY BEST WORK ─── */}
       <Section id="features" className="section-deferred bg-[#f5f5f5] py-16 md:py-20">
         <Container className="max-w-[1600px]">
-          <div className="mx-auto mb-16 flex max-w-[640px] flex-col items-center space-y-4 text-center">
+          <GsapReveal preset="fadeUp" className="mx-auto mb-16 flex max-w-[640px] flex-col items-center space-y-4 text-center">
             <span className="framer-chip framer-chip-blue">My Work</span>
             <h2
               className="text-4xl font-semibold tracking-[-0.02em] md:text-6xl"
@@ -125,23 +134,26 @@ export function HomeSections({ content }: HomeSectionsProps) {
             <p className="max-w-[700px] text-xl leading-8 text-[#181818]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
               {content.workIntro}
             </p>
-          </div>
+          </GsapReveal>
 
           <div className="mx-auto flex w-full max-w-[1300px] flex-col gap-10 md:gap-12">
             {content.works.map((item, index) => (
-              <div
+              <GsapReveal
                 key={item.id}
+                preset="fadeUp"
+                delay={index * 0.08}
                 className="w-full xl:sticky"
+                as="div"
                 style={{
                   top: `clamp(${84 + index * 10}px, calc(4vw + ${72 + index * 6}px), ${112 + index * 18}px)`,
                   zIndex: 20 + index
                 }}
               >
-                <div className="flex w-full flex-col items-stretch gap-2.5 rounded-[30px] border border-black/[0.08] bg-[#f8f8f7] p-2.5 shadow-[0_20px_60px_-45px_rgba(24,24,24,0.65)] md:min-h-[460px] md:flex-row">
+                <div className="work-card flex w-full flex-col items-stretch gap-2.5 rounded-[30px] border border-black/[0.08] bg-[#f8f8f7] p-2.5 shadow-[0_20px_60px_-45px_rgba(24,24,24,0.65)] md:min-h-[460px] md:flex-row">
                   <WorkTextCard item={item} index={index} />
                   <WorkImageCard item={item} />
                 </div>
-              </div>
+              </GsapReveal>
             ))}
           </div>
         </Container>
@@ -176,19 +188,19 @@ export function HomeSections({ content }: HomeSectionsProps) {
       {/* ─── MEET RISHABH / ABOUT ─── */}
       <Section id="about" className="section-deferred pb-[40px] pt-[120px] md:pb-[64px] md:pt-[128px] xl:pb-[80px] xl:pt-[160px]">
         <Container className="max-w-[1600px]">
-          <div className="mx-auto mb-10 flex w-full max-w-[1000px] flex-col items-center gap-2 text-center md:mb-12">
-            <span className="framer-chip framer-chip-lime">{content.coursesTitle}</span>
+          <GsapReveal preset="fadeUp" className="mx-auto mb-10 flex w-full max-w-[1000px] flex-col items-center gap-2 text-center md:mb-12">
+            <span className="framer-chip framer-chip-lime">About</span>
             <h2 className="text-4xl font-semibold tracking-[-0.02em] md:text-6xl" style={{ fontFamily: '"Aileron", sans-serif' }}>
-              Meet <span className="text-[#8e8e8e]">Rishabh!</span>
+              {content.coursesTitle}
             </h2>
             <p className="max-w-[1000px] text-[18px] leading-[26px] text-[#181818] md:text-[20px] md:leading-[30px]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: "-0.01em" }}>
               {content.coursesIntro}
             </p>
-          </div>
+          </GsapReveal>
 
-          <div className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-2 rounded-[24px] bg-[#f5f5f5] p-2 md:grid-cols-2">
+          <GsapReveal preset="fadeUp" delay={0.15} childSelector=".card-experience" stagger={0.12} className="mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-2 rounded-[24px] bg-[#f5f5f5] p-2 md:grid-cols-2">
             {content.experiences.map((item) => (
-              <Card key={item.company} className="flex h-full flex-col gap-4 rounded-2xl bg-white p-6 md:p-7">
+              <Card key={item.company} className="card-experience flex h-full flex-col gap-4 rounded-2xl bg-white p-6 md:p-7">
                 <div className="flex items-center gap-2 text-sm leading-6 text-[#8e8e8e]" style={{ fontFamily: '"Aileron", sans-serif' }}>
                   <span>{item.periodStart}</span>
                   <span aria-hidden="true">-</span>
@@ -223,79 +235,36 @@ export function HomeSections({ content }: HomeSectionsProps) {
                 </Link>
               </Card>
             ))}
-          </div>
+          </GsapReveal>
         </Container>
       </Section>
 
       {/* ─── IMAGE GALLERY — FUN STUFF ─── */}
       <Section id="gallery" className="section-deferred bg-[#f5f5f5] py-16 md:py-20">
         <Container>
-          <div className="mx-auto mb-16 flex max-w-3xl flex-col items-center space-y-4 text-center">
+          <GsapReveal preset="fadeUp" className="mx-auto mb-16 flex max-w-3xl flex-col items-center space-y-4 text-center">
             <span className="rounded-full bg-blue-100/60 px-4 py-1.5 text-xs font-semibold tracking-wider text-blue-600">Fun Stuff</span>
             <h2 className="text-4xl font-semibold tracking-[-0.02em] md:text-6xl" style={{ fontFamily: '"Aileron", sans-serif' }}>
               Image <span className="text-[#8e8e8e]">gallery</span>
             </h2>
             <p className="max-w-lg text-[var(--color-muted)] md:text-lg">{content.galleryIntro}</p>
-          </div>
+          </GsapReveal>
 
-          <div className="mx-auto grid max-w-[640px] grid-cols-2 gap-3 md:hidden">
+          <div className="gallery-grid">
             {content.gallery.map((item, index) => (
-              <div key={`mobile-gallery-${index}`} className="aspect-square overflow-hidden rounded-full">
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  width={512}
-                  height={512}
-                  sizes="(max-width: 809px) 44vw, 240px"
-                  className="h-full w-full object-cover"
-                />
-              </div>
+              <GsapReveal key={`gallery-${index}`} preset="fadeUp" delay={index * 0.04}>
+                <div className={`gallery-item gallery-item-${(index % 4) + 1}`}>
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={600}
+                    height={600}
+                    sizes="(max-width: 640px) 44vw, (max-width: 1024px) 30vw, 240px"
+                    className="h-full w-full object-cover transition-transform duration-slow ease-out-quart hover:scale-105"
+                  />
+                </div>
+              </GsapReveal>
             ))}
-          </div>
-
-          <div className="mx-auto hidden max-w-[1000px] space-y-2 rounded-3xl bg-[#f5f5f5] p-2 md:block">
-            <div className="flex justify-center gap-2">
-              {content.gallery.slice(0, 4).map((item, i) => (
-                <div key={`g1-${i}`} className="aspect-square w-[240px] shrink-0 overflow-hidden rounded-full">
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={512}
-                    height={512}
-                    sizes="(max-width: 1439px) 20vw, 240px"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center gap-2">
-              {content.gallery.slice(4, 7).map((item, i) => (
-                <div key={`g2-${i}`} className="aspect-square w-[240px] shrink-0 overflow-hidden rounded-full">
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={512}
-                    height={512}
-                    sizes="(max-width: 1439px) 20vw, 240px"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center">
-              {content.gallery.slice(7, 8).map((item, i) => (
-                <div key={`g3-${i}`} className="aspect-square w-[240px] overflow-hidden rounded-full">
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={512}
-                    height={512}
-                    sizes="(max-width: 1439px) 20vw, 240px"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
           </div>
         </Container>
       </Section>
@@ -311,7 +280,7 @@ export function HomeSections({ content }: HomeSectionsProps) {
 
               <div className="flex flex-col items-center gap-4">
                 <h2 className="text-5xl font-semibold leading-[1.06] tracking-[-0.02em] text-white md:text-[60px] md:leading-[68px]" style={{ fontFamily: '"Aileron", sans-serif' }}>
-                  {content.funStuffSummary}
+                  <SplitTextReveal text={content.funStuffSummary} />
                 </h2>
                 <p className="text-2xl leading-8 text-white" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
                   {content.contactHeading}
@@ -319,7 +288,9 @@ export function HomeSections({ content }: HomeSectionsProps) {
               </div>
 
               <Link href={`mailto:${content.email}`} className="w-fit">
-                <span className="framer-btn-primary">Contact Me</span>
+                <MagneticButton>
+                  <span className="framer-btn-primary">Contact Me</span>
+                </MagneticButton>
               </Link>
             </div>
 
@@ -560,7 +531,7 @@ function WorkImageCard({ item }: { item: HomeContent["works"][0] }) {
           width={1600}
           height={1200}
           sizes="(max-width: 809px) 100vw, (max-width: 1439px) 50vw, 780px"
-          className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          className="aspect-[4/3] h-full w-full object-cover transition-transform duration-slow ease-out-quart group-hover:scale-[1.05]"
           unoptimized={isSvgUrl(item.image)}
         />
       </div>

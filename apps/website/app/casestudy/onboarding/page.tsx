@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Card, Container, Section } from "@packages/ui";
 import { BeforeAfterCompare } from "@/components/case-study/before-after-compare";
 import { ScrollSpyToc } from "@/components/case-study/scroll-spy-toc";
+import { ScrollProgressBar } from "@/components/scroll-progress-bar";
+import { AnimatedCounter } from "@/components/animated-counter";
+import { GsapReveal } from "@/components/gsap-reveal";
 import { onboardingCaseStudy } from "@/lib/onboarding-case-study";
 import { homeContent } from "@/lib/site-content";
 
@@ -15,6 +18,7 @@ export const metadata: Metadata = {
 export default function OnboardingCaseStudyPage() {
   return (
     <>
+      <ScrollProgressBar />
       <Section className="pb-8 pt-12 md:pb-10 md:pt-16">
         <Container>
           <Link href="/" className="text-sm font-semibold text-[var(--color-brand)] hover:underline">
@@ -53,13 +57,22 @@ export default function OnboardingCaseStudyPage() {
             <Card className="border-white bg-[#f5f5f5] p-5 md:p-6">
               <h2 className="text-xl font-semibold tracking-tight md:text-2xl">Impact Overview</h2>
               <div className="mt-4 grid gap-3 md:grid-cols-3">
-                {onboardingCaseStudy.impactOverview.map((metric) => (
-                  <article key={metric.title} className="rounded-xl bg-white/90 p-4">
-                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-muted)]">{metric.title}</p>
-                    <p className="mt-2 text-xl font-semibold tracking-tight md:text-2xl">{metric.value}</p>
-                    <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{metric.description}</p>
-                  </article>
-                ))}
+                {onboardingCaseStudy.impactOverview.map((metric) => {
+                  const parsed = parseImpactValue(metric.value);
+                  return (
+                    <article key={metric.title} className="rounded-xl bg-white/90 p-4">
+                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-muted)]">{metric.title}</p>
+                      <p className="mt-2 text-xl font-semibold tracking-tight md:text-2xl">
+                        {parsed ? (
+                          <AnimatedCounter value={parsed.num} prefix={parsed.prefix} suffix={parsed.suffix} />
+                        ) : (
+                          metric.value
+                        )}
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{metric.description}</p>
+                    </article>
+                  );
+                })}
               </div>
             </Card>
           </div>
@@ -83,7 +96,9 @@ export default function OnboardingCaseStudyPage() {
 
             <article className="space-y-0">
               <section id="problem-framing" className="space-y-6 scroll-mt-28 pb-8 md:pb-10">
-                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{onboardingCaseStudy.problemFraming.heading}</h2>
+                <GsapReveal preset="fadeUp">
+                  <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{onboardingCaseStudy.problemFraming.heading}</h2>
+                </GsapReveal>
                 {onboardingCaseStudy.problemFraming.intro.map((paragraph) => (
                   <p key={paragraph} className="content-prose">
                     {paragraph}
@@ -327,6 +342,12 @@ export default function OnboardingCaseStudyPage() {
       </Section>
     </>
   );
+}
+
+function parseImpactValue(value: string): { num: number; prefix: string; suffix: string } | null {
+  const m = value.match(/^([+-]?)(\d+(?:\.\d+)?)(%)$/);
+  if (!m) return null;
+  return { prefix: m[1] ?? "", num: parseFloat(m[2] ?? "0"), suffix: m[3] ?? "" };
 }
 
 function InfoBlock({ title, value }: { title: string; value: string }) {

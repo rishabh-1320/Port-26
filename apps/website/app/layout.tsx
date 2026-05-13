@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { PageTransition } from "@/components/page-transition";
 import { homeContent } from "@/lib/site-content";
 import "./globals.css";
 
@@ -30,10 +30,21 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          href="https://framerusercontent.com/assets/suQ36PpzxORmpGk06KApyPNrO0.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
-        <SiteHeader content={homeContent} />
-        <main>{children}</main>
-        <SiteFooter content={homeContent} />
+        <a href="#main" className="skip-link">Skip to main content</a>
+        <PageTransition>
+          <SiteHeader content={homeContent} />
+          <main id="main">{children}</main>
+        </PageTransition>
       </body>
     </html>
   );
