@@ -9,19 +9,17 @@ export type SocialLink = {
 };
 
 export type HeroContent = {
-  lead: string;
-  highlight: string;
-  support: string;
-  intro: string;
+  h1: string;
+  subLine: string;
+  metrics: string[];
   image: string;
 };
 
-export type ProcessStep = {
+export type IdeologyPrinciple = {
   id: string;
   title: string;
   description: string;
-  bgColor: string;
-  textColor: string;
+  variant: "light" | "brand" | "blue" | "dark";
 };
 
 export type WorkCard = {
@@ -29,6 +27,9 @@ export type WorkCard = {
   title: string;
   description: string;
   image: string;
+  role: string;
+  year: string;
+  company: string;
   ctaLabel: string;
   active: boolean;
   href?: string;
@@ -40,55 +41,82 @@ export type AIExplorationCard = {
   title: string;
   description: string;
   image: string;
+  status: "Live" | "Prototype" | "Archived";
+  builtWith: string[];
+  year: number;
   ctaLabel: string;
   active: boolean;
   href?: string;
   tags: string[];
 };
 
-export type GalleryItem = {
-  src: string;
-  alt: string;
+export type LogoItem = {
+  name: string;
+  src?: string;
 };
 
-export type ExperienceItem = {
-  company: string;
-  role: string;
-  periodStart: string;
-  periodEnd: string;
-  logoSrc: string;
+export type AiWorkflowTool = {
+  name: string;
   description: string;
-  link: string;
+};
+
+export type ExperienceProject = {
+  name: string;
+  period: string;
+  description: string;
+};
+
+export type ExperienceEntry = {
+  company: string;
+  period: string;
+  description?: string;
+  projects?: ExperienceProject[];
+};
+
+export type SkillGroup = {
+  category: string;
+  items: string;
 };
 
 export type HomeContent = {
+  statusBarText: string;
   siteName: string;
-  byline: string;
   logo: string;
   resumeUrl: string;
   nav: NavItem[];
   hero: HeroContent;
-  processIntro: string;
-  processSteps: ProcessStep[];
-  workIntro: string;
+  logoStrip: {
+    heading: string;
+    logos: LogoItem[];
+  };
+  ideologyHeading: string;
+  ideologyPrinciples: IdeologyPrinciple[];
+  worksHeading: string;
   works: WorkCard[];
+  aiWorkflow: {
+    heading: string;
+    intro: string;
+    tools: AiWorkflowTool[];
+    closingLine: string;
+  };
+  aiExplorationsHeading: string;
+  aiExplorationsIntro: string;
   aiExplorations: AIExplorationCard[];
-  galleryTitle: string;
-  galleryIntro: string;
-  gallery: GalleryItem[];
-  coursesTitle: string;
-  coursesIntro: string;
-  courseHighlights: string[];
-  aboutSummary: string;
-  experiences: ExperienceItem[];
-  funStuffSummary: string;
-  contactHeading: string;
-  contactSubheading: string;
-  email: string;
-  phone: string;
-  socials: SocialLink[];
+  about: {
+    heading: string;
+    bio: string[];
+    currentlyLine: string;
+    photoSrc?: string;
+    experiences: ExperienceEntry[];
+    skills: SkillGroup[];
+  };
+  footer: {
+    closingLine: string;
+    email: string;
+    linkedinUrl: string;
+    location: string;
+  };
   footerNote: string;
-  footerPhoto: string;
 };
 
 export type CaseStudyStep = {
@@ -107,4 +135,5 @@ export type CaseStudyContent = {
   overview: string;
   steps: CaseStudyStep[];
   thanksNote: string;
+  toc?: Array<{ id: string; label: string }>;
 };

@@ -305,7 +305,7 @@ export const onboardingCaseStudy: OnboardingCaseStudyContent = {
       },
       ideasHeading: "Design ideas we came up with from the workshop",
       bullets: [
-        "Allow users to preview translation results to motivate them during the signup process.",
+        "Allow users to preview translation results to motivate them during the sign-up process.",
         "Implement a passive onboarding checklist to facilitate users (instead of a checklist modal).",
         "An interactive sign-up process to help users get familiar with the product.",
         "Develop a JTBD-based homepage to allow users to identify supported content types earlier."
@@ -371,11 +371,11 @@ export const onboardingCaseStudy: OnboardingCaseStudyContent = {
         alt: "Before and after comparison of the Lingobase homepage redesign",
         stats: [
           {
-            value: "36% increase in signup attempt rate",
+            value: "36% increase in sign-up attempt rate",
             description: "Visitors could identify supported content types earlier, reducing friction at the top of the funnel."
           },
           {
-            value: "15% increase in actual sign up rate",
+            value: "15% increase in actual sign-up rate",
             description: "Clearer value proposition and JTBD-aligned messaging converted more visitors to sign-ups."
           }
         ]

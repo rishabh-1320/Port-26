@@ -81,7 +81,10 @@ export function ScrollSpyToc({ items }: ScrollSpyTocProps) {
   }, [sectionIds]);
 
   return (
-    <nav className="mt-3 flex gap-2 overflow-x-auto md:flex-col md:overflow-visible">
+    <nav
+      aria-label="Table of contents"
+      className="mt-3 flex gap-2 overflow-x-auto scrollbar-none md:mt-2 md:flex-col md:gap-0 md:overflow-visible"
+    >
       {items.map((item) => {
         const isActive = item.id === activeId;
 
@@ -96,15 +99,16 @@ export function ScrollSpyToc({ items }: ScrollSpyTocProps) {
               setActiveId(item.id);
             }}
             aria-current={isActive ? "location" : undefined}
-            className={`relative whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs font-medium transition md:text-sm ${
-              isActive
-                ? "border-[var(--color-text)] bg-[var(--color-text)] text-white"
-                : "border-[var(--color-border)] text-[var(--color-text)] hover:bg-[#f5f5f5]"
-            }`}
+            className={`
+              shrink-0 whitespace-nowrap rounded-lg border px-3 py-1.5 text-xs font-medium transition
+              md:relative md:block md:whitespace-normal md:rounded-none md:border-0 md:border-l-2 md:px-0 md:py-1.5 md:pl-3 md:text-[13px] md:leading-snug
+              ${
+                isActive
+                  ? "border-[var(--color-text)] bg-[var(--color-text)] text-white md:border-[var(--brand-lime)] md:bg-transparent md:font-semibold md:text-[var(--text-primary)]"
+                  : "border-[var(--color-border)] text-[var(--color-text)] hover:bg-[#f5f5f5] md:border-transparent md:text-[var(--text-muted)] md:hover:bg-transparent md:hover:text-[var(--text-primary)]"
+              }
+            `}
           >
-            {isActive && (
-              <span className="absolute -left-3 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[var(--brand-lime)]" />
-            )}
             {item.label}
           </a>
         );

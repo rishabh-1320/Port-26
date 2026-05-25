@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -113,6 +123,59 @@ html {
   --z-nav:     40;
   --z-modal:   50;
 
+  /* Typography */
+  --font-display: "Aileron", "Inter", "Segoe UI", sans-serif;
+
+  /* Type scale — font-size / line-height pairs */
+  --text-display-size:   60px;  --text-display-lh:   1.05;
+  --text-h1-size:        48px;  --text-h1-lh:        1.05;
+  --text-h2-size:        32px;  --text-h2-lh:        1.15;
+  --text-h3-size:        22px;  --text-h3-lh:        1.3;
+  --text-h4-size:        17px;  --text-h4-lh:        1.4;
+  --text-body-size:      16px;  --text-body-lh:      1.7;
+  --text-body-sm-size:   15px;  --text-body-sm-lh:   1.65;
+  --text-caption-size:   13px;  --text-caption-lh:   1.55;
+  --text-eyebrow-size:   11px;  --text-eyebrow-lh:   1.4;
+
+  /* Mobile overrides — applied at small viewports */
+  --text-display-size-sm: 40px;
+  --text-h1-size-sm:      36px;
+  --text-h2-size-sm:      26px;
+  --text-h3-size-sm:      19px;
+
+  /* Shadows — semantic, named by usage */
+  --shadow-card-rest:
+    0 1px 2px rgba(24, 24, 24, 0.04),
+    0 4px 12px rgba(24, 24, 24, 0.05),
+    0 20px 56px -12px rgba(24, 24, 24, 0.14);
+  --shadow-card-hover:
+    0 1px 2px rgba(24, 24, 24, 0.04),
+    0 8px 24px rgba(24, 24, 24, 0.08),
+    0 36px 72px -8px rgba(24, 24, 24, 0.20);
+  --shadow-card-feature:
+    0 24px 70px -42px rgba(9, 18, 13, 0.45);
+  --shadow-nav-card:
+    0 8px 32px -12px rgba(9, 18, 13, 0.22);
+  --shadow-btn-primary-rest:
+    0 2px 8px rgba(187, 244, 81, 0.30),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-btn-primary-hover:
+    0 8px 28px rgba(166, 219, 70, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-btn-secondary-rest:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+  --shadow-btn-secondary-hover:
+    0 4px 14px rgba(0, 0, 0, 0.09);
+  --shadow-chip-blue:
+    0 2px 12px rgba(0, 122, 255, 0.28);
+  --shadow-chip-lime:
+    0 2px 12px rgba(187, 244, 81, 0.40);
+  --shadow-glass-card:
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 12px 40px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+
   /* Backward-compat aliases */
   --color-bg: var(--surface-base);
   --color-text: var(--text-primary);
@@ -151,6 +214,31 @@ a {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.hero-glass-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 40px 28px 36px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 12px 40px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.heading-muted {
+  background: linear-gradient(180deg, #aaaaaa 0%, #c4c4c4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section-eyebrow {
@@ -195,11 +283,13 @@ a {
 .framer-btn-primary {
   background: #bbf451;
   color: #181818;
+  box-shadow: 0 2px 8px rgba(187, 244, 81, 0.3), 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .framer-btn-primary:hover {
   background: #a6db46;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(166, 219, 70, 0.55), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .framer-btn-secondary {
@@ -209,7 +299,8 @@ a {
   gap: 12px;
   border-radius: 16px;
   border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
   padding: 10px 24px;
   font-family: "Aileron", "Inter", "Segoe UI", sans-serif;
   font-size: 16px;
@@ -217,12 +308,15 @@ a {
   letter-spacing: -0.01em;
   line-height: 24px;
   color: var(--color-text);
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .framer-btn-secondary:hover {
-  background: #f5f5f5;
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.98);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 .framer-btn-secondary:active {
@@ -255,11 +349,13 @@ a {
 .framer-chip-blue {
   background: #007aff;
   color: #ffffff;
+  box-shadow: 0 2px 12px rgba(0, 122, 255, 0.28);
 }
 
 .framer-chip-lime {
   background: #bbf451;
   color: #181818;
+  box-shadow: 0 2px 12px rgba(187, 244, 81, 0.4);
 }
 
 .framer-tag-pill {
@@ -350,6 +446,7 @@ a {
 
 .process-section {
   padding: 80px 24px;
+  background: var(--surface-base);
   overflow: hidden;
   scroll-margin-top: 40px;
 }
@@ -361,7 +458,7 @@ a {
   max-width: 1600px;
   flex-direction: column;
   align-items: center;
-  gap: 64px;
+  gap: 48px;
   padding: 0;
   position: relative;
 }
@@ -385,11 +482,11 @@ a {
 
 .process-title {
   color: #181818;
-  font-size: 60px;
+  font-size: 48px;
   font-style: normal;
   font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 68px;
+  line-height: 1.05;
   text-align: center;
 }
 
@@ -407,7 +504,7 @@ a {
   display: flex;
   width: 100%;
   justify-content: center;
-  padding: 80px 0;
+  padding: 48px 0;
   position: relative;
 }
 
@@ -533,12 +630,20 @@ a {
 }
 
 .work-card {
-  transition: transform 400ms var(--ease-out-quart);
+  box-shadow:
+    0 1px 2px rgba(24, 24, 24, 0.04),
+    0 4px 12px rgba(24, 24, 24, 0.05),
+    0 20px 56px -12px rgba(24, 24, 24, 0.14);
+  transition: transform 400ms var(--ease-out-quart), box-shadow 400ms var(--ease-out-quart);
 }
 
 @media (hover: hover) {
   .work-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow:
+      0 1px 2px rgba(24, 24, 24, 0.04),
+      0 8px 24px rgba(24, 24, 24, 0.08),
+      0 36px 72px -8px rgba(24, 24, 24, 0.20);
   }
 }
 
@@ -558,6 +663,29 @@ a {
 
   .card-experience:hover img {
     transform: rotate(6deg);
+  }
+}
+
+.experience-role-link {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  border-radius: 12px;
+  background: #f5f5f5;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #181818;
+  transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+
+@media (hover: hover) {
+  .experience-role-link:hover {
+    background: #ebebeb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   }
 }
 
@@ -686,11 +814,11 @@ a {
   }
 
   .process-section {
-    padding: 40px 16px;
+    padding: 64px 16px;
   }
 
   .process-container {
-    gap: 40px;
+    gap: 32px;
   }
 
   .process-lines {
@@ -702,8 +830,8 @@ a {
   }
 
   .process-title {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 36px;
+    line-height: 1.05;
   }
 
   .process-intro {
@@ -757,10 +885,12 @@ a {
   left: 50%;
   transform: translateX(-50%);
   top: 0;
-  bottom: 1px;
+  /* Extend 80px past the section bottom so the canvas's fade-out mask
+     has room to dissolve before the hard container edge */
+  bottom: -80px;
   width: 100vw;
   z-index: 0;
-  overflow: hidden;
+  overflow: visible;
   pointer-events: none;
 }
 
@@ -770,14 +900,47 @@ a {
   width: 100%;
   height: 100%;
   display: block;
+  opacity: 0.8;
+  /*
+   * Three additive mask layers:
+   * 1. Left radial blob  — center (0%, 68%), v-radius 32% → top edge ≈36%
+   * 2. Right radial blob — center (100%, 64%), v-radius 29% → top edge ≈35%
+   * 3. Linear fade       — transparent 0-34%, ramps in 34-52%, solid 52-66%,
+   *                        fades to white 66-86%, fully transparent 86-100%
+   * → gradient starts appearing around the whitespace/gap area (≈34-36%),
+   *   blobs peak at mid-section sides, bottom quarter is white
+   */
+  mask-image:
+    radial-gradient(ellipse 68% 32% at 0% 68%, black 0%, transparent 100%),
+    radial-gradient(ellipse 58% 29% at 100% 64%, black 0%, transparent 100%),
+    linear-gradient(to bottom,
+      transparent 0%,
+      transparent 34%,
+      rgba(0, 0, 0, 0.4) 46%,
+      black 55%,
+      black 66%,
+      rgba(0, 0, 0, 0.25) 78%,
+      transparent 90%);
+  -webkit-mask-image:
+    radial-gradient(ellipse 68% 32% at 0% 68%, black 0%, transparent 100%),
+    radial-gradient(ellipse 58% 29% at 100% 64%, black 0%, transparent 100%),
+    linear-gradient(to bottom,
+      transparent 0%,
+      transparent 34%,
+      rgba(0, 0, 0, 0.4) 46%,
+      black 55%,
+      black 66%,
+      rgba(0, 0, 0, 0.25) 78%,
+      transparent 90%);
+  mask-composite: add;
+  -webkit-mask-composite: source-over, source-over;
   will-change: contents;
 }
 
 .hero-shader-fallback {
   background:
-    radial-gradient(circle at 30% 80%, rgba(187, 244, 81, 0.4), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(79, 161, 255, 0.35), transparent 60%),
-    radial-gradient(circle at 50% 90%, rgba(255, 248, 154, 0.25), transparent 50%);
+    radial-gradient(circle at 30% 80%, rgba(166, 219, 70, 0.45), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(187, 244, 81, 0.3), transparent 60%);
 }
 
 .scroll-progress {

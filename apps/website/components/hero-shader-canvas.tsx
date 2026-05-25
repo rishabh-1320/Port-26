@@ -3,12 +3,25 @@
 import { useEffect, useRef } from "react";
 import { VERTEX_SHADER, FRAGMENT_SHADER } from "@/lib/shaders/hero-gradient.glsl";
 
+// Exact config from the original Framer "Animated Gradient Background" component
+const CONFIG = {
+  color1: [166 / 255, 219 / 255, 70 / 255, 1] as const,   // #a6db46
+  color2: [187 / 255, 244 / 255, 81 / 255, 1] as const,   // #bbf451
+  color3: [1, 1, 1, 1] as const,                           // #ffffff
+  shape: 0,             // Checks
+  proportion: 0.35,     // 35/100
+  scale: 1.0,
+  softness: 1.0,        // 100/100
+  rotation: 0,
+  distortion: 0.12,     // 12/100
+  swirl: 0.80,          // 80/100
+  swirlIterations: 10,
+  shapeScale: 0.10,     // shapeSize 10/100
+  speed: 40,
+} as const;
+
 const FPS_CAP = 30;
 const RENDER_SCALE = 0.5;
-
-const COLOR_LIME = [187 / 255, 244 / 255, 81 / 255] as const;
-const COLOR_BLUE = [79 / 255, 161 / 255, 255 / 255] as const;
-const COLOR_WARM = [255 / 255, 248 / 255, 154 / 255] as const;
 
 export function HeroShaderCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -17,7 +30,7 @@ export function HeroShaderCanvas() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const gl = canvas.getContext("webgl", { antialias: false, alpha: true, premultipliedAlpha: false });
+    const gl = canvas.getContext("webgl2", { antialias: false, alpha: true, premultipliedAlpha: false });
     if (!gl) {
       canvas.classList.add("hero-shader-fallback");
       return;
@@ -51,25 +64,52 @@ export function HeroShaderCanvas() {
     }
     gl.useProgram(program);
 
+    // Full-screen quad: two triangles
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+      gl.STATIC_DRAW
+    );
     const aPosition = gl.getAttribLocation(program, "a_position");
     gl.enableVertexAttribArray(aPosition);
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
 
-    const uTime = gl.getUniformLocation(program, "u_time");
-    const uResolution = gl.getUniformLocation(program, "u_resolution");
-    const uColorLime = gl.getUniformLocation(program, "u_color_lime");
-    const uColorBlue = gl.getUniformLocation(program, "u_color_blue");
-    const uColorWarm = gl.getUniformLocation(program, "u_color_warm");
+    // Uniform locations
+    const uTime        = gl.getUniformLocation(program, "u_time");
+    const uPixelRatio  = gl.getUniformLocation(program, "u_pixelRatio");
+    const uResolution  = gl.getUniformLocation(program, "u_resolution");
+    const uScale       = gl.getUniformLocation(program, "u_scale");
+    const uRotation    = gl.getUniformLocation(program, "u_rotation");
+    const uColor1      = gl.getUniformLocation(program, "u_color1");
+    const uColor2      = gl.getUniformLocation(program, "u_color2");
+    const uColor3      = gl.getUniformLocation(program, "u_color3");
+    const uProportion  = gl.getUniformLocation(program, "u_proportion");
+    const uSoftness    = gl.getUniformLocation(program, "u_softness");
+    const uShape       = gl.getUniformLocation(program, "u_shape");
+    const uShapeScale  = gl.getUniformLocation(program, "u_shapeScale");
+    const uDistortion  = gl.getUniformLocation(program, "u_distortion");
+    const uSwirl       = gl.getUniformLocation(program, "u_swirl");
+    const uSwirlIter   = gl.getUniformLocation(program, "u_swirlIterations");
 
-    gl.uniform3fv(uColorLime, COLOR_LIME);
-    gl.uniform3fv(uColorBlue, COLOR_BLUE);
-    gl.uniform3fv(uColorWarm, COLOR_WARM);
+    // Static uniforms (never change)
+    gl.uniform4fv(uColor1, CONFIG.color1);
+    gl.uniform4fv(uColor2, CONFIG.color2);
+    gl.uniform4fv(uColor3, CONFIG.color3);
+    gl.uniform1f(uScale, CONFIG.scale);
+    gl.uniform1f(uRotation, CONFIG.rotation);
+    gl.uniform1f(uProportion, CONFIG.proportion);
+    gl.uniform1f(uSoftness, CONFIG.softness);
+    gl.uniform1f(uShape, CONFIG.shape);
+    gl.uniform1f(uShapeScale, CONFIG.shapeScale);
+    gl.uniform1f(uDistortion, CONFIG.distortion);
+    gl.uniform1f(uSwirl, CONFIG.swirl);
+    gl.uniform1f(uSwirlIter, CONFIG.swirlIterations);
 
     let raf = 0;
     let lastTick = 0;
+    let totalTime = 0;
     let isRunning = false;
     let isVisible = true;
     const frameInterval = 1000 / FPS_CAP;
@@ -83,29 +123,35 @@ export function HeroShaderCanvas() {
         canvas.width = w;
         canvas.height = h;
         gl.viewport(0, 0, w, h);
-        gl.uniform2f(uResolution, w, h);
       }
     };
 
-    const renderFrame = (time: number) => {
-      gl.uniform1f(uTime, time * 0.001);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    const renderFrame = (delta: number) => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      gl.uniform2f(uResolution, gl.canvas.width, gl.canvas.height);
+      gl.uniform1f(uPixelRatio, dpr * RENDER_SCALE);
+      gl.uniform1f(uTime, totalTime * 0.001);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      // Framer normalizes speed to 0–1 range before multiplying delta
+      totalTime += delta * (CONFIG.speed / 100);
     };
 
-    const loop = (time: number) => {
+    const loop = (now: number) => {
       if (!isRunning) return;
-      if (time - lastTick < frameInterval) {
+      const delta = now - lastTick;
+      if (delta < frameInterval) {
         raf = requestAnimationFrame(loop);
         return;
       }
-      lastTick = time;
-      renderFrame(time);
+      lastTick = now;
+      renderFrame(delta);
       raf = requestAnimationFrame(loop);
     };
 
     const start = () => {
       if (reduceMotion || isRunning || !isVisible) return;
       isRunning = true;
+      lastTick = performance.now();
       raf = requestAnimationFrame(loop);
     };
 

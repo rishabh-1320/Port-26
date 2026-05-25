@@ -19,8 +19,8 @@ export function BeforeAfterCompare({ beforeSrc, afterSrc, beforeLabel, afterLabe
     <figure className="space-y-2">
       <div className="relative overflow-hidden rounded-xl border border-[var(--color-border)] bg-white">
         <Image
-          src={beforeSrc}
-          alt={`${alt} (before)`}
+          src={afterSrc}
+          alt={`${alt} (after)`}
           width={1600}
           height={1000}
           sizes="(max-width: 809px) 100vw, 860px"
@@ -30,8 +30,8 @@ export function BeforeAfterCompare({ beforeSrc, afterSrc, beforeLabel, afterLabe
         <div className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${position}%` }}>
           <div className="relative h-full w-full">
             <Image
-              src={afterSrc}
-              alt={`${alt} (after)`}
+              src={beforeSrc}
+              alt={`${alt} (before)`}
               fill
               sizes="(max-width: 809px) 100vw, 860px"
               className="select-none bg-[#fafafa] object-contain"
@@ -42,8 +42,11 @@ export function BeforeAfterCompare({ beforeSrc, afterSrc, beforeLabel, afterLabe
 
         <div className="pointer-events-none absolute inset-y-0" style={{ left: `calc(${position}% - 1px)` }}>
           <div className="h-full w-0.5 bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.15)]" />
-          <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white bg-black/70 text-white">
-            <span className="text-xs">⇆</span>
+          <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/75 text-white shadow-md">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5 4L2 8L5 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M11 4L14 8L11 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
         </div>
 

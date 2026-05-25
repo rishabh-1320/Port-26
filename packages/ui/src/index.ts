@@ -1,5 +1,11 @@
 export { Container } from "./layout/container";
 export { Section } from "./layout/section";
+export { Badge } from "./primitives/badge";
 export { Button } from "./primitives/button";
 export { Card } from "./primitives/card";
+export { Divider } from "./primitives/divider";
+export { Eyebrow } from "./primitives/eyebrow";
+export { Heading } from "./primitives/heading";
+export { InlineCode } from "./primitives/inline-code";
+export { Text } from "./primitives/text";
 export { cn } from "./utils/cn";

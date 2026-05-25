@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
+import { StatusBar } from "@/components/status-bar";
 import { PageTransition } from "@/components/page-transition";
 import { homeContent } from "@/lib/site-content";
 import "./globals.css";
@@ -8,21 +9,21 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://port-26.vercel.app"
 
 export const metadata: Metadata = {
   title: {
-    default: "Design Port",
-    template: "%s | Design Port"
+    default: "Rishabh Choudhary — B2B Product Designer",
+    template: "%s | Rishabh Choudhary"
   },
-  description: "Portfolio of Rishabh Choudhary - Product and UI/UX Designer for complex B2B systems.",
+  description: "B2B enterprise product designer. Systems thinker. Uses AI to ship designs in production code.",
   metadataBase: new URL(siteUrl),
   openGraph: {
-    title: "Design Port",
-    description: "Portfolio of Rishabh Choudhary.",
+    title: "Rishabh Choudhary — B2B Product Designer",
+    description: "B2B enterprise product designer. Systems thinker. Uses AI to ship designs in production code.",
     type: "website",
     images: ["https://framerusercontent.com/images/AqaOpcEcFqtiggHTbjvnqNgu68.png"]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Design Port",
-    description: "Portfolio of Rishabh Choudhary.",
+    title: "Rishabh Choudhary — B2B Product Designer",
+    description: "B2B enterprise product designer. Systems thinker. Uses AI to ship designs in production code.",
     images: ["https://framerusercontent.com/images/AqaOpcEcFqtiggHTbjvnqNgu68.png"]
   }
 };
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a href="#main" className="skip-link">Skip to main content</a>
         <PageTransition>
+          <StatusBar text={homeContent.statusBarText} />
           <SiteHeader content={homeContent} />
           <main id="main">{children}</main>
         </PageTransition>

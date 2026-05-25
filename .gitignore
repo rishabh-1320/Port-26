@@ -5,7 +5,7 @@ out
 .env
 .env.*
 !.env.example
-.DS_Store
+**/.DS_Store
 coverage
 dist
 pnpm-lock.yaml
@@ -14,3 +14,28 @@ yarn.lock
 Source dump/
 apps/**/tsconfig.tsbuildinfo
 services/**/tsconfig.tsbuildinfo
+
+# Editor artifacts
+.idea/
+*.swp
+*.swo
+*.suo
+.vscode/settings.json
+
+# OS artifacts
+Thumbs.db
+
+# Temp / local planning files
+Source dump/
+Content dump/
+*.local.md
+
+# Local verification artifacts (Playwright MCP, ad-hoc screenshots)
+.playwright-mcp/
+/*.png
+/*.jpg
+/*.jpeg
+
+# Claude Code local config (machine-specific)
+.claude/settings.local.json
+.claude/worktrees/

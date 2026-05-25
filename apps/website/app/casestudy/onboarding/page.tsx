@@ -1,391 +1,213 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { Card, Container, Section } from "@packages/ui";
-import { BeforeAfterCompare } from "@/components/case-study/before-after-compare";
+import { Card, Container, Divider, Eyebrow, Section } from "@packages/ui";
 import { ScrollSpyToc } from "@/components/case-study/scroll-spy-toc";
 import { ScrollProgressBar } from "@/components/scroll-progress-bar";
-import { AnimatedCounter } from "@/components/animated-counter";
-import { GsapReveal } from "@/components/gsap-reveal";
-import { onboardingCaseStudy } from "@/lib/onboarding-case-study";
-import { homeContent } from "@/lib/site-content";
+import { CaseStudyFooter } from "@/components/case-study/case-study-footer";
+import { CaseFigurePlaceholder } from "@/components/case-study/case-figure-placeholder";
+import { CaseSection } from "@/components/case-study/case-section";
+import { CaseStudyNav } from "@/components/case-study/case-study-nav";
+import { HeroCard } from "@/components/case-study/hero-card";
+import { SubCard } from "@/components/case-study/sub-card";
 
 export const metadata: Metadata = {
-  title: onboardingCaseStudy.metadataTitle,
-  description: onboardingCaseStudy.metadataDescription
+  title: "HRMS Candidate Onboarding Redesign — Timelabs | Rishabh Choudhary",
+  description:
+    "How I rebuilt a digital candidate onboarding flow from an admin-panel nobody used into a self-service guided experience candidates could actually complete on their own.",
 };
+
+const toc = [
+  { id: "snapshot", label: "Snapshot" },
+  { id: "problem", label: "The problem" },
+  { id: "what-i-fixed", label: "What I had to fix" },
+  { id: "discovery", label: "Discovery" },
+  { id: "redesign", label: "The redesign" },
+  { id: "process", label: "How I worked through it" },
+  { id: "outcome", label: "Where it landed" },
+];
 
 export default function OnboardingCaseStudyPage() {
   return (
     <>
       <ScrollProgressBar />
+
       <Section className="pb-8 pt-12 md:pb-10 md:pt-16">
         <Container>
           <Link href="/" className="text-sm font-semibold text-[var(--color-brand)] hover:underline">
-            Back to Home
+            ← Back to Home
           </Link>
 
-          <div id="overview" className="mt-5 space-y-5 scroll-mt-28">
-            <Card className="border-white bg-white/85 p-6 shadow-[0_24px_70px_-42px_rgba(9,18,13,0.45)] md:p-8">
-              <h1 className="text-4xl font-semibold leading-[0.98] tracking-[-0.02em] md:text-5xl">
-                {onboardingCaseStudy.heroTitle}
-                <span className="block">{onboardingCaseStudy.heroSubtitle}</span>
-              </h1>
-
-              <div className="mt-6 grid gap-4 rounded-2xl bg-[#f5f5f5] p-4 md:grid-cols-3">
-                <InfoBlock title="Overview" value={onboardingCaseStudy.overview} />
-                <InfoBlock title="My role" value={onboardingCaseStudy.myRole} />
-                <InfoBlock title="Timeline" value={onboardingCaseStudy.timeline} />
-              </div>
-
-              <div className="mt-6 overflow-hidden rounded-xl border border-white bg-white">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster={onboardingCaseStudy.heroPoster}
-                  className="h-full max-h-[560px] w-full object-contain"
-                  aria-label="Lingobase onboarding comparison"
-                >
-                  <source src={onboardingCaseStudy.heroVideo} type="video/mp4" />
-                </video>
-              </div>
-            </Card>
-
-            <Card className="border-white bg-[#f5f5f5] p-5 md:p-6">
-              <h2 className="text-xl font-semibold tracking-tight md:text-2xl">Impact Overview</h2>
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
-                {onboardingCaseStudy.impactOverview.map((metric) => {
-                  const parsed = parseImpactValue(metric.value);
-                  return (
-                    <article key={metric.title} className="rounded-xl bg-white/90 p-4">
-                      <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-muted)]">{metric.title}</p>
-                      <p className="mt-2 text-xl font-semibold tracking-tight md:text-2xl">
-                        {parsed ? (
-                          <AnimatedCounter value={parsed.num} prefix={parsed.prefix} suffix={parsed.suffix} />
-                        ) : (
-                          metric.value
-                        )}
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{metric.description}</p>
-                    </article>
-                  );
-                })}
-              </div>
-            </Card>
+          <div id="snapshot" className="mt-5 scroll-mt-28">
+            <HeroCard
+              title="Rebuilding digital candidate onboarding for HRMS, from old to new"
+              meta={[
+                { title: "Role", value: "UX Designer (sole designer)" },
+                { title: "Company", value: "Timelabs · 2024–2025" },
+                { title: "Timeline", value: "~2–3 weeks design, then build with engineering" },
+              ]}
+              footer={
+                <CaseFigurePlaceholder
+                  description="redesigned onboarding home — welcome, deadline, days left, % complete, clear step list"
+                  caption="The redesigned onboarding home — you always know where you are and what's next."
+                />
+              }
+            >
+              <p className="content-prose">
+                Timelabs had a digital candidate onboarding flow. Almost nobody used it.
+              </p>
+              <p className="content-prose mt-3">
+                Candidates found it confusing, so HR ran onboarding manually — defeating the whole point of a digital flow. I rebuilt it into a clear, guided, self-service experience where candidates always know where they are, what&apos;s done, and what&apos;s next.
+              </p>
+              <p className="content-prose mt-3">
+                It shipped, and onboarding got faster. HR went from <em>doing</em> the work to <em>approving</em> it.
+              </p>
+            </HeroCard>
           </div>
         </Container>
       </Section>
 
       <Section className="py-2 md:py-4">
         <Container>
-          <div className="grid gap-5 md:grid-cols-[190px_minmax(0,860px)] md:gap-8">
+          <div className="grid gap-5 md:grid-cols-[220px_minmax(0,860px)] md:gap-10">
             <aside className="md:sticky md:top-28 md:h-fit">
-              <Card className="border-white bg-white/90 p-3.5 md:p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-[var(--color-muted)]">On this page</p>
-                <ScrollSpyToc
-                  items={onboardingCaseStudy.toc.map((item) => ({
-                    ...item,
-                    label: item.id === "final-design" ? "Final decision" : item.label
-                  }))}
-                />
-              </Card>
+              <Eyebrow className="md:mb-3">On this page</Eyebrow>
+              <ScrollSpyToc items={toc} />
             </aside>
 
             <article className="space-y-0">
-              <section id="problem-framing" className="space-y-6 scroll-mt-28 pb-8 md:pb-10">
-                <GsapReveal preset="fadeUp">
-                  <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{onboardingCaseStudy.problemFraming.heading}</h2>
-                </GsapReveal>
-                {onboardingCaseStudy.problemFraming.intro.map((paragraph) => (
-                  <p key={paragraph} className="content-prose">
-                    {paragraph}
-                  </p>
-                ))}
 
-                <FigureBlock figure={onboardingCaseStudy.problemFraming.activationFigure} />
+              <CaseSection id="problem" heading="The problem: a digital flow nobody used">
+                <p className="content-prose">
+                  The onboarding flow already existed. It just didn&apos;t work as an experience.
+                </p>
+                <p className="content-prose mt-4">
+                  It was built like an <strong>admin panel</strong> — tasks in tables, dense forms, manual document uploads. For a new hire on day one, it was confusing. They couldn&apos;t tell:
+                </p>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-[15px] leading-7 text-[var(--text-secondary)] marker:text-[var(--text-muted)]">
+                  <li>Where they were in the process</li>
+                  <li>What was done</li>
+                  <li>What was still pending</li>
+                  <li>What to do next</li>
+                </ul>
+                <p className="content-prose mt-4">
+                  So candidates avoided it. And when candidates don&apos;t self-serve, the work doesn&apos;t disappear — it lands on HR, who completed onboarding by hand for every new hire. A digital product that created manual work.
+                </p>
+                <CaseFigurePlaceholder
+                  description="old admin-panel onboarding — task-table dashboard and a dense form screen"
+                  caption="The old flow — tables, dense forms, and no sense of progress."
+                />
+              </CaseSection>
 
-                <h3 className="pt-1 text-xl font-semibold tracking-tight md:text-2xl">How I tackle the problem</h3>
-                {onboardingCaseStudy.problemFraming.steps.map((step) => (
-                  <Card key={step.title} className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                    <h4 className="text-lg font-semibold tracking-tight md:text-xl">{step.title}</h4>
-                    {step.body.map((paragraph) => (
-                      <p key={paragraph} className="content-prose">
-                        {paragraph}
-                      </p>
-                    ))}
-                    {step.bullets && (
-                      <ul className="list-disc space-y-2 pl-5 text-[15px] leading-7 text-[var(--color-muted)]">
-                        {step.bullets.map((bullet) => (
-                          <li key={bullet}>{bullet}</li>
-                        ))}
-                      </ul>
-                    )}
-                    {step.figures.map((figure) => (
-                      <FigureBlock key={figure.src} figure={figure} />
-                    ))}
-                  </Card>
-                ))}
+              <Divider />
 
-                <Card className="space-y-4 border-white bg-[#f5f5f5] p-5 md:p-6">
-                  <h3 className="text-xl font-semibold tracking-tight md:text-2xl">{onboardingCaseStudy.frictionSummary.heading}</h3>
-                  <p className="content-prose">{onboardingCaseStudy.frictionSummary.prompt}</p>
-                  <div className="flex items-center justify-center overflow-hidden rounded-xl bg-white py-4">
-                    <Image
-                      src={onboardingCaseStudy.frictionSummary.figure.src}
-                      alt={onboardingCaseStudy.frictionSummary.figure.alt}
-                      width={680}
-                      height={520}
-                      sizes="(max-width: 809px) 40vw, 170px"
-                      className="h-auto w-[25%] min-w-[110px] max-w-[170px] object-contain"
-                    />
-                  </div>
-                  <div className="grid gap-3 md:grid-cols-3">
-                    {onboardingCaseStudy.frictionSummary.notes.map((note, index) => (
-                      <article key={note} className="rounded-lg bg-white px-4 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-muted)]">Note {index + 1}</p>
-                        <p className="mt-1 text-sm font-semibold text-[var(--color-text)]">{note}</p>
-                      </article>
-                    ))}
-                  </div>
-                </Card>
+              <CaseSection id="what-i-fixed" heading="What I had to fix (and what I didn't)">
+                <p className="content-prose">
+                  The capabilities were already there. Mobile and email verification, document upload, document parsing — all of it existed.
+                </p>
+                <p className="content-prose mt-4">
+                  <strong>The features weren&apos;t the problem. The experience was.</strong>
+                </p>
+                <p className="content-prose mt-4">
+                  So this was never about adding features. It was about answering one question on every screen: <em>where am I, and what happens next?</em>
+                </p>
+              </CaseSection>
 
-                <h3 className="text-xl font-semibold tracking-tight md:text-2xl">{onboardingCaseStudy.problemDetails.heading}</h3>
-                {onboardingCaseStudy.problemDetails.sections.map((detail) => (
-                  <Card key={detail.title} className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                    <h4 className="text-lg font-semibold tracking-tight md:text-xl">{detail.title}</h4>
-                    <p className="content-prose">{detail.body}</p>
-                    {detail.figure ? <FigureBlock figure={detail.figure} /> : null}
-                    {detail.note ? <p className="rounded-lg bg-[#f5f5f5] px-4 py-3 text-sm font-medium text-[var(--color-text)]">{detail.note}</p> : null}
-                  </Card>
-                ))}
+              <Divider />
 
-                <Card className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                  <h4 className="text-xl font-semibold tracking-tight md:text-2xl">{onboardingCaseStudy.problemDetails.additionalProblems.heading}</h4>
-                  <FigureBlock figure={onboardingCaseStudy.problemDetails.additionalProblems.figure} captionOverride={onboardingCaseStudy.problemDetails.additionalProblems.caption} />
-                  <div className="overflow-hidden rounded-xl border border-white bg-[#f5f5f5]">
-                    <div className="aspect-video w-full">
-                      <iframe
-                        src={onboardingCaseStudy.problemDetails.additionalProblems.gifEmbed}
-                        title="Onboarding meme"
-                        className="h-full w-full"
-                        loading="lazy"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                </Card>
-              </section>
+              <CaseSection id="discovery" heading="Discovery: learning from the best onboarding flows">
+                <p className="content-prose">
+                  There was no research budget — this was requirements-driven. So I built my evidence base from references.
+                </p>
+                <p className="content-prose mt-4">
+                  I studied how mature products handle account setup, verification, and documents — Zoho, Gusto, and others. How they show progress, handle verification, manage uploads, and close out completion. That became my playbook for what &ldquo;good&rdquo; looked like.
+                </p>
+                <CaseFigurePlaceholder
+                  description="inspiration board — collected references from Zoho, Gusto, and similar products"
+                  caption="References, not research — studying how mature products guide people through setup."
+                />
+              </CaseSection>
 
-              <SectionDivider />
+              <Divider />
 
-              <section id="solution" className="space-y-5 scroll-mt-28 py-8 md:py-10">
-                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{onboardingCaseStudy.solution.heading}</h2>
-                <p className="content-prose">{onboardingCaseStudy.solution.intro}</p>
+              <CaseSection id="redesign" heading="The redesign: from admin panel to guided journey">
+                <p className="content-prose">
+                  I rebuilt onboarding around two ideas — clarity and self-service.
+                </p>
+                <div className="mt-5 space-y-4">
+                  <SubCard title="Always know where you stand">
+                    <p className="content-prose">
+                      A persistent progress tracker — &ldquo;X of 12 completed,&rdquo; a percentage, the deadline, days left. Every step shows its status: done, pending, or next.
+                    </p>
+                  </SubCard>
+                  <SubCard title="One clear path">
+                    <p className="content-prose">
+                      The dense forms became a guided, step-by-step flow: verification → personal info → documents → policies → orientation → review &amp; sign. Each step is one focused task, not a wall of fields.
+                    </p>
+                  </SubCard>
+                  <SubCard title="Self-service by default">
+                    <p className="content-prose">
+                      Everything HR used to do by hand, the candidate now does — verify, fill, upload. HR&apos;s job shrank to a final approval.
+                    </p>
+                  </SubCard>
+                  <SubCard title="Small wins along the way">
+                    <p className="content-prose">
+                      Completion moments (&ldquo;Good Job Filling Verification&rdquo;) keep momentum and make a long process feel doable.
+                    </p>
+                  </SubCard>
+                </div>
+                <CaseFigurePlaceholder
+                  description="the progress system — step list and progress tracker, with status and % always visible"
+                  caption="The core fix — you always know where you are and what's next."
+                />
+                <CaseFigurePlaceholder
+                  description="a key step — the document-upload step with Aadhar/PAN parsing"
+                  caption="Same capabilities as before — now one clear step at a time."
+                />
+              </CaseSection>
 
-                <Card className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                  <h3 className="text-lg font-semibold tracking-tight md:text-xl">{onboardingCaseStudy.solution.sprint.title}</h3>
-                  <p className="content-prose">{onboardingCaseStudy.solution.sprint.body}</p>
-                  <FigureBlock figure={onboardingCaseStudy.solution.sprint.figure} />
-                  <p className="text-[15px] font-semibold text-[var(--color-text)]">{onboardingCaseStudy.solution.sprint.ideasHeading}</p>
-                  <ul className="list-disc space-y-2 pl-5 text-[15px] leading-7 text-[var(--color-muted)]">
-                    {onboardingCaseStudy.solution.sprint.bullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
-                    ))}
-                  </ul>
-                  <div className="grid gap-3 md:grid-cols-2">
-                    {onboardingCaseStudy.solution.sprint.ideaFigures.map((figure) => (
-                      <div key={figure.src} className="overflow-hidden rounded-xl bg-white p-2">
-                        <Image src={figure.src} alt={figure.alt} width={1200} height={800} sizes="(max-width: 809px) 100vw, 50vw" className="h-full w-full object-contain" />
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-center text-sm text-[var(--color-muted)]">{onboardingCaseStudy.solution.sprint.caption}</p>
-                </Card>
+              <Divider />
 
-                <Card className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                  <h3 className="text-lg font-semibold tracking-tight md:text-xl">{onboardingCaseStudy.solution.testing.title}</h3>
-                  <p className="content-prose">{onboardingCaseStudy.solution.testing.body}</p>
-                  <p className="text-[15px] font-semibold text-[var(--color-text)]">Here&apos;s what we learned from the prototype testing:</p>
-                  <ul className="list-disc space-y-2 pl-5 text-[15px] leading-7 text-[var(--color-muted)]">
-                    {onboardingCaseStudy.solution.testing.learned.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <FigureBlock figure={onboardingCaseStudy.solution.testing.figure} captionOverride={onboardingCaseStudy.solution.testing.caption} />
-                </Card>
+              <CaseSection id="process" heading="How I worked through it">
+                <p className="content-prose">
+                  As the sole designer, I brainstormed and iterated over ~2–3 weeks, working from the outside in:
+                </p>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-[15px] leading-7 text-[var(--text-secondary)] marker:text-[var(--text-muted)]">
+                  <li><strong>Layout first</strong> — the onboarding home and overall structure; exploring the visual language and step model</li>
+                  <li><strong>Then components</strong> — the verification/OTP cards, every state mapped (empty, error, re-enter, success)</li>
+                  <li><strong>Then details</strong> — text fields, and the full range of upload states (uploading, reupload, file too large, unsupported, error)</li>
+                  <li><strong>Then the refined flow</strong> — pulling it together with parsing, per-section progress, and completion moments</li>
+                </ul>
+                <CaseFigurePlaceholder
+                  description="iteration boards side by side — layout explorations → verification cards → field/upload states"
+                  caption="Layout, then components, then states — working from the structure inward."
+                />
+                <p className="content-prose mt-4">
+                  Then I partnered with developers to build it.
+                </p>
+              </CaseSection>
 
-                <Card className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                  <h3 className="text-lg font-semibold tracking-tight md:text-xl">{onboardingCaseStudy.solution.iterations.title}</h3>
-                  <p className="content-prose">{onboardingCaseStudy.solution.iterations.body}</p>
-                  <FigureBlock figure={onboardingCaseStudy.solution.iterations.figure} captionOverride={onboardingCaseStudy.solution.iterations.caption} />
-                </Card>
-              </section>
+              <Divider />
 
-              <SectionDivider />
+              <CaseSection id="outcome" heading="Where it landed">
+                <p className="content-prose">
+                  The redesign shipped, and onboarding got faster.
+                </p>
+                <p className="content-prose mt-4">
+                  The biggest shift wasn&apos;t visual — it was <em>who does the work</em>. Candidates could finally self-serve, so HR moved from <strong>completing</strong> onboarding to <strong>approving</strong> it. The digital flow started doing the job it was built for.
+                </p>
+                <CaseFigurePlaceholder
+                  description="the 'Good Job Filling' completion celebration or completed-onboarding state"
+                  caption="Onboarding that candidates actually finish — on their own."
+                />
+              </CaseSection>
 
-              <section id="final-design" className="space-y-5 scroll-mt-28 py-8 md:py-10">
-                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{onboardingCaseStudy.finalDesigns.heading}</h2>
-                <p className="content-prose">{onboardingCaseStudy.finalDesigns.intro}</p>
-
-                {onboardingCaseStudy.finalDesigns.blocks.map((block) => (
-                  <Card key={block.id} className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                    <h3 className="text-lg font-semibold tracking-tight md:text-xl">{block.title}</h3>
-                    <p className="content-prose">{block.description}</p>
-                    <BeforeAfterCompare
-                      beforeSrc={block.beforeSrc}
-                      afterSrc={block.afterSrc}
-                      beforeLabel={block.beforeLabel}
-                      afterLabel={block.afterLabel}
-                      alt={block.alt}
-                    />
-                    <div className="grid gap-3 md:grid-cols-2">
-                      {block.stats.map((stat) => (
-                        <article key={stat.value} className="rounded-xl bg-[#f5f5f5] p-4">
-                          <p className="text-base font-semibold text-[var(--color-text)] md:text-lg">{stat.value}</p>
-                          <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{stat.description}</p>
-                        </article>
-                      ))}
-                    </div>
-                  </Card>
-                ))}
-              </section>
-
-              <SectionDivider />
-
-              <section id="results" className="space-y-5 scroll-mt-28 py-8 md:py-10">
-                <Card className="space-y-4 border-white bg-white/90 p-5 md:p-6">
-                  <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">{onboardingCaseStudy.feedbackImpact.heading}</h2>
-                  <p className="content-prose">{onboardingCaseStudy.feedbackImpact.intro}</p>
-                  <ul className="list-disc space-y-2 pl-5 text-[15px] leading-7 text-[var(--color-muted)]">
-                    {onboardingCaseStudy.feedbackImpact.bullets.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <blockquote className="rounded-xl bg-[#f5f5f5] px-5 py-4 text-base italic text-[var(--color-text)]">
-                    {onboardingCaseStudy.feedbackImpact.quote}
-                  </blockquote>
-                </Card>
-              </section>
             </article>
           </div>
         </Container>
       </Section>
 
-      <Section className="bg-[#181818] py-20 md:py-20">
-        <Container className="max-w-[1000px]">
-          <div className="flex flex-col items-center gap-20">
-            <div className="flex w-full max-w-[800px] flex-col items-center gap-10 text-center">
-              <div className="h-[112px] w-[112px] overflow-hidden rounded-full">
-                <Image src={homeContent.logo} alt="Design Port logo" width={1969} height={1969} sizes="112px" className="h-full w-full object-cover" />
-              </div>
-
-              <div className="flex flex-col items-center gap-4">
-                <h2 className="text-5xl font-semibold leading-[1.06] tracking-[-0.02em] text-white md:text-[60px] md:leading-[68px]" style={{ fontFamily: '"Aileron", sans-serif' }}>
-                  Ready to work <span className="text-[#8e8e8e]">with me?</span>
-                </h2>
-                <p className="text-2xl leading-8 text-white" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
-                  Let&apos;s connect — email or call, your choice.
-                </p>
-              </div>
-
-              <Link href={`mailto:${homeContent.email}`} className="w-fit">
-                <span className="framer-btn-primary">Contact Me</span>
-              </Link>
-            </div>
-
-            <div className="flex w-full items-start justify-between gap-6 md:flex-row">
-              <div className="flex max-w-[320px] flex-col gap-4">
-                <p className="text-base leading-6 text-[#e0e0e0]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
-                  Let&apos;s build the future of your product, together.
-                </p>
-
-                <div className="flex items-center gap-4">
-                  {homeContent.socials.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-xs font-semibold tracking-[-0.01em] text-white transition hover:border-white/40 hover:bg-white/10"
-                      style={{ fontFamily: '"Aileron", sans-serif' }}
-                      aria-label={item.label}
-                    >
-                      {getSocialShortLabel(item.label)}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col items-end gap-2 text-white">
-                <Link href={`mailto:${homeContent.email}`} className="text-base leading-6 tracking-[-0.01em]" style={{ fontFamily: '"Aileron", sans-serif' }}>
-                  {homeContent.email}
-                </Link>
-                <Link href={`tel:${homeContent.phone.replace(/\s+/g, "")}`} className="text-base leading-6 tracking-[-0.01em]" style={{ fontFamily: '"Aileron", sans-serif' }}>
-                  {homeContent.phone}
-                </Link>
-              </div>
-            </div>
-
-            <div className="h-px w-full bg-white/10" />
-
-            <div className="flex w-full items-center justify-between gap-4">
-              <span className="text-sm text-transparent">.</span>
-              <span className="text-sm text-[#8e8e8e]" style={{ fontFamily: '"Aileron", sans-serif', letterSpacing: '-0.01em' }}>
-                {homeContent.footerNote}
-              </span>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      <CaseStudyNav current="onboarding" />
+      <CaseStudyFooter />
     </>
   );
-}
-
-function parseImpactValue(value: string): { num: number; prefix: string; suffix: string } | null {
-  const m = value.match(/^([+-]?)(\d+(?:\.\d+)?)(%)$/);
-  if (!m) return null;
-  return { prefix: m[1] ?? "", num: parseFloat(m[2] ?? "0"), suffix: m[3] ?? "" };
-}
-
-function InfoBlock({ title, value }: { title: string; value: string }) {
-  return (
-    <div>
-      <p className="text-base font-semibold text-[var(--color-text)]">{title}</p>
-      <p className="mt-2 text-sm leading-6 text-[var(--color-muted)] md:text-base">{value}</p>
-    </div>
-  );
-}
-
-function FigureBlock({ figure, captionOverride }: { figure: { src: string; alt: string; caption?: string }; captionOverride?: string }) {
-  return (
-    <figure className="overflow-hidden rounded-xl border border-white bg-white">
-      <Image src={figure.src} alt={figure.alt} width={1440} height={900} sizes="(max-width: 809px) 100vw, 860px" className="h-auto max-h-[560px] w-full object-cover" />
-      {captionOverride || figure.caption ? (
-        <figcaption className="border-t border-white px-4 py-3 text-center text-sm text-[var(--color-muted)]">{captionOverride || figure.caption}</figcaption>
-      ) : null}
-    </figure>
-  );
-}
-
-function SectionDivider() {
-  return <div className="h-px w-full bg-[var(--color-border)]" aria-hidden="true" />;
-}
-
-function getSocialShortLabel(label: string) {
-  if (label.toLowerCase().includes("instagram")) {
-    return "IG";
-  }
-
-  if (label.toLowerCase() === "x") {
-    return "X";
-  }
-
-  if (label.toLowerCase().includes("youtube")) {
-    return "YT";
-  }
-
-  return label.slice(0, 2).toUpperCase();
 }

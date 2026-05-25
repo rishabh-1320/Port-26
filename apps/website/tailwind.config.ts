@@ -33,6 +33,9 @@ const config: Config = {
           subtle: "var(--border-subtle)"
         }
       },
+      fontFamily: {
+        display: ["var(--font-display)", "sans-serif"]
+      },
       borderRadius: {
         DEFAULT: "var(--radius-md)",
         sm: "var(--radius-sm)",
@@ -40,6 +43,34 @@ const config: Config = {
         lg: "var(--radius-lg)",
         xl: "var(--radius-xl)",
         "2xl": "var(--radius-2xl)"
+      },
+      fontSize: {
+        display: ["var(--text-display-size)", { lineHeight: "var(--text-display-lh)" }],
+        h1: ["var(--text-h1-size)", { lineHeight: "var(--text-h1-lh)" }],
+        h2: ["var(--text-h2-size)", { lineHeight: "var(--text-h2-lh)" }],
+        h3: ["var(--text-h3-size)", { lineHeight: "var(--text-h3-lh)" }],
+        h4: ["var(--text-h4-size)", { lineHeight: "var(--text-h4-lh)" }],
+        "display-sm": ["var(--text-display-size-sm)", { lineHeight: "var(--text-display-lh)" }],
+        "h1-sm": ["var(--text-h1-size-sm)", { lineHeight: "var(--text-h1-lh)" }],
+        "h2-sm": ["var(--text-h2-size-sm)", { lineHeight: "var(--text-h2-lh)" }],
+        "h3-sm": ["var(--text-h3-size-sm)", { lineHeight: "var(--text-h3-lh)" }],
+        body: ["var(--text-body-size)", { lineHeight: "var(--text-body-lh)" }],
+        "body-sm": ["var(--text-body-sm-size)", { lineHeight: "var(--text-body-sm-lh)" }],
+        caption: ["var(--text-caption-size)", { lineHeight: "var(--text-caption-lh)" }],
+        eyebrow: ["var(--text-eyebrow-size)", { lineHeight: "var(--text-eyebrow-lh)" }]
+      },
+      boxShadow: {
+        "card-rest": "var(--shadow-card-rest)",
+        "card-hover": "var(--shadow-card-hover)",
+        "card-feature": "var(--shadow-card-feature)",
+        "nav-card": "var(--shadow-nav-card)",
+        "btn-primary": "var(--shadow-btn-primary-rest)",
+        "btn-primary-hover": "var(--shadow-btn-primary-hover)",
+        "btn-secondary": "var(--shadow-btn-secondary-rest)",
+        "btn-secondary-hover": "var(--shadow-btn-secondary-hover)",
+        "chip-blue": "var(--shadow-chip-blue)",
+        "chip-lime": "var(--shadow-chip-lime)",
+        "glass-card": "var(--shadow-glass-card)"
       },
       transitionTimingFunction: {
         "out-quart": "var(--ease-out-quart)",
